@@ -1,6 +1,6 @@
 {
-    "name": "codemap2",
-    "short_name": "codemap2",
+    "name": "codemap",
+    "short_name": "codemap",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
