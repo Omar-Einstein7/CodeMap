@@ -3,8 +3,10 @@ import 'package:codemap2/Courses/BackCourse.dart';
 import 'package:codemap2/Courses/DesktopCourse.dart';
 import 'package:codemap2/Courses/FrontCourse.dart';
 import 'package:codemap2/Courses/MobCourse.dart';
+import 'package:codemap2/Login&signin/Login.dart';
 import 'package:codemap2/Login&signin/Login2.dart';
 import 'package:codemap2/Model/values.dart';
+import 'package:codemap2/features/auth/presentation/pages/login_screen.dart';
 
 import 'package:codemap2/mobile/Favorite.dart';
 import 'package:codemap2/mobile/Main.dart';
@@ -73,7 +75,7 @@ class _MyAppState extends State<MyApp> {
 
       },
       debugShowCheckedModeBanner: false,
-      home:Login2() ,
+      home:LoginScreen() ,
     );
   }
 }
