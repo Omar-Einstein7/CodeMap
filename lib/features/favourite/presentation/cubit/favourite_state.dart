@@ -1,10 +1,30 @@
-// part of 'favourite_cubit.dart';
+import 'package:codemap2/features/course/domain/entities/course.dart';
+import 'package:equatable/equatable.dart';
 
-// abstract class FavouriteState extends Equatable {
-//   const FavouriteState();
 
-//   @override
-//   List<Object> get props => [];
-// }
+abstract class FavouriteState extends Equatable {
+  const FavouriteState();
 
-// class FavouriteInitial extends FavouriteState {}
+  @override
+  List<Object?> get props => [];
+}
+
+class FavouriteInitial extends FavouriteState {}
+
+class FavouriteLoading extends FavouriteState {}
+
+class FavouriteLoaded extends FavouriteState {
+  final List<Course> favourites;
+  const FavouriteLoaded(this.favourites);
+
+  @override
+  List<Object?> get props => [favourites];
+}
+
+class FavouriteError extends FavouriteState {
+  final String message;
+  const FavouriteError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

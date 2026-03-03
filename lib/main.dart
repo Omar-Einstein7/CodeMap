@@ -1,81 +1,61 @@
-import 'package:codemap2/Courses/AICourse.dart';
-import 'package:codemap2/Courses/BackCourse.dart';
-import 'package:codemap2/Courses/DesktopCourse.dart';
-import 'package:codemap2/Courses/FrontCourse.dart';
-import 'package:codemap2/Courses/MobCourse.dart';
-import 'package:codemap2/Login&signin/Login.dart';
-import 'package:codemap2/Login&signin/Login2.dart';
-import 'package:codemap2/Model/values.dart';
-import 'package:codemap2/features/auth/presentation/pages/login_screen.dart';
-
-import 'package:codemap2/mobile/Favorite.dart';
-import 'package:codemap2/mobile/Main.dart';
-import 'package:codemap2/mobile/Profile.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:codemap2/features/navigation/presentation/pages/navigation_shell.dart';
+import 'package:codemap2/features/favourite/presentation/pages/favourite_screen.dart';
+import 'package:codemap2/features/profile/presentation/pages/profile_screen.dart';
+import 'package:codemap2/features/profile/presentation/pages/settings_screen.dart';
+import 'package:codemap2/features/course/presentation/pages/category_list_screen.dart';
+import 'package:codemap2/features/auth/presentation/pages/signup_screen.dart';
 
-import 'Model/App_Theme.dart';
-import 'mobile/Courses.dart';
+// New Architecture imports
 
+import 'core/theme/app_theme.dart';
+import 'features/splash/presentation/pages/splash_screen.dart';
+import 'features/auth/presentation/pages/login_screen.dart';
+import 'features/auth/presentation/pages/forget_password_screen.dart';
+import 'features/auth/presentation/pages/verify_code_screen.dart';
+import 'features/auth/presentation/pages/new_password_screen.dart';
+
+import 'core/di/service_locator.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLightTheme = prefs.getBool(Spref.isLight)?? true ;
+  await di.init();
 
-
-  runApp(AppStart(isLightTheme: isLightTheme));
-}
-/////////////////////////////////////////////////////////////////////
-class AppStart extends StatelessWidget {
-  const AppStart({Key? key, required this.isLightTheme}) : super(key: key);
-  final bool isLightTheme;
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (_)=> ThemeProvider(isLightTheme: isLightTheme)
-          ),
-        ],
-        child: MyApp());
-  }
+  // No need to manually read SharedPreferences here as it's handled by GetIt
+  runApp(const ProviderScope(child: CodeMapApp()));
 }
 
-
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class CodeMapApp extends ConsumerWidget {
+  const CodeMapApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLightTheme = ref.watch(themeNotifierProvider);
+    final themeNotifier = ref.read(themeNotifierProvider.notifier);
 
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-
-      routes: {
-        "Login" :(context)=> Login2(),
-        "Main": (context)=> Main(),
-        "Courses": (context)=> Courses(),
-        "Fav": (context)=> Favourite(),
-        "Profile": (context)=> Profile(),
-
-//////////////////////////////////////////////
-        "Mobile": (context)=> MobCourse(),
-        "Frontend": (context)=> FrontEnd(),
-        "Backend": (context)=> BackCourse(),
-        "AI": (context)=> AICourse(),
-        "Desktop": (context)=> Desktopcourse(),
-
-      },
       debugShowCheckedModeBanner: false,
-      home:LoginScreen() ,
+      title: 'CodeMap',
+      theme: themeNotifier.getTheme(),
+      themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
+      // The starting point of our refactored app
+      home: const SplashScreen(),
+
+      // Maintaining legacy routes to avoid breaking the app during migration
+      routes: {
+        "Login": (context) => const LoginScreen(),
+        "Signup": (context) => const SignupScreen(),
+        "ForgetPassword": (context) => const ForgetPasswordScreen(),
+        "VerifyCode": (context) => const VerifyCodeScreen(),
+        "NewPassword": (context) => const NewPasswordScreen(),
+        "Main": (context) => const NavigationShell(),
+        "Courses": (context) => const CategoryListScreen(),
+        "Fav": (context) => const FavouriteScreen(),
+        "Profile": (context) => const ProfileScreen(),
+        "Settings": (context) => const SettingsScreen(),
+      },
     );
   }
 }
