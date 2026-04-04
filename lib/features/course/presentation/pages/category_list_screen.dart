@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/course.dart';
-import '../widgets/course_widgets.dart';
+import '../widgets/category_card.dart';
 import 'course_list_screen.dart';
 
 class CategoryListScreen extends ConsumerWidget {
@@ -18,37 +19,23 @@ class CategoryListScreen extends ConsumerWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: theme.primaryColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "C O U R S E S",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: theme.primaryColor,
+                ),
+                height: 50,
+                child: const Center(
+                  child: Text(
+                    "C O U R S E S",
+                    style: TextStyle(
+                      fontSize: 19,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -65,13 +52,7 @@ class CategoryListScreen extends ConsumerWidget {
                   return CategoryCard(
                     category: category,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CourseListScreen(category: category),
-                        ),
-                      );
+                      context.push('/courses/courses/${category.name}');
                     },
                   );
                 },

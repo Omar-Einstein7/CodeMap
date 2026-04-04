@@ -15,12 +15,12 @@ class CourseLoading extends CourseState {}
 
 class CourseLoaded extends CourseState {
   final List<Course> courses;
-  final CourseCategory category;
+  final CourseCategory? category;
   final String query;
 
   const CourseLoaded({
     required this.courses,
-    required this.category,
+    this.category,
     this.query = '',
   });
 

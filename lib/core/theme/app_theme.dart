@@ -28,6 +28,91 @@ class AppConstants {
   static const String themeKey = "is_light_theme";
 }
 
+/// Helper to build ThemeData for a given theme mode without Riverpod.
+ThemeData themeFor(bool isLight) {
+  final Brightness brightness = isLight ? Brightness.light : Brightness.dark;
+  final Color currentPrimary = isLight
+      ? AppColors.primary
+      : AppColors.primaryDark;
+
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    primaryColor: currentPrimary,
+    scaffoldBackgroundColor: isLight ? AppColors.bgLight : AppColors.bgDark,
+
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: currentPrimary,
+      brightness: brightness,
+      primary: currentPrimary,
+      surface: isLight ? AppColors.surfaceLight : AppColors.surfaceDark,
+      background: isLight ? AppColors.bgLight : AppColors.bgDark,
+    ),
+
+    cardTheme: CardThemeData(
+      color: isLight ? AppColors.surfaceLight : AppColors.surfaceDark,
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+      iconTheme: IconThemeData(color: isLight ? Colors.black87 : Colors.white),
+      titleTextStyle: TextStyle(
+        color: isLight ? Colors.black87 : Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    textTheme: TextTheme(
+      displayLarge: TextStyle(
+        color: isLight ? Colors.black87 : Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+      titleLarge: TextStyle(
+        color: isLight ? Colors.black87 : Colors.white,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyLarge: TextStyle(color: isLight ? Colors.black87 : Colors.white),
+      bodyMedium: TextStyle(color: isLight ? Colors.black54 : Colors.white70),
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: currentPrimary,
+        foregroundColor: Colors.white,
+        minimumSize: const Size(double.infinity, 54),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        elevation: 2,
+      ),
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: isLight
+          ? Colors.black.withOpacity(0.05)
+          : Colors.white.withOpacity(0.05),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: currentPrimary, width: 1.5),
+      ),
+      labelStyle: TextStyle(color: isLight ? Colors.black54 : Colors.white60),
+      hintStyle: TextStyle(color: isLight ? Colors.black38 : Colors.white38),
+    ),
+  );
+}
+
 /// Provider to manage the app's theme state (light/dark mode).
 final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, bool>((ref) {
   final prefs = GetIt.instance<SharedPreferences>();

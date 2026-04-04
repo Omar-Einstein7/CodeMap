@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/di/service_locator.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
@@ -85,6 +86,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+
+                    // Modern Search Bar
+                    GestureDetector(
+                      onTap: () => context.push('/home/search'),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 25,
+                          vertical: 10,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isLightTheme
+                              ? Colors.black.withOpacity(0.05)
+                              : Colors.white.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              BoxIcons.bx_search,
+                              color: isLightTheme
+                                  ? Colors.black54
+                                  : Colors.white54,
+                            ),
+                            const SizedBox(width: 15),
+                            Text(
+                              "Search for courses...",
+                              style: TextStyle(
+                                color: isLightTheme
+                                    ? Colors.black54
+                                    : Colors.white54,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 

@@ -10,6 +10,7 @@ class DioClient {
   DioClient(): _dio = Dio(
     BaseOptions(
       baseUrl: APIUrls.baseURL  ,
+      
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
       },

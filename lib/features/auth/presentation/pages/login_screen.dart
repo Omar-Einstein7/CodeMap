@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart'; // Import go_router
 import '../../../../core/di/service_locator.dart';
+import '../widgets/auth_title.dart';
+import '../widgets/auth_subtitle.dart';
+import '../widgets/auth_button.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/custom_textfield.dart';
@@ -31,15 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => sl<AuthCubit>(),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccess) {
+          if (state is AuthAuthenticated) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
+              const SnackBar(
+                content: Text("Login Successful"),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
               ),
             );
-            Navigator.pushReplacementNamed(context, 'Main');
+            context.go('/home');
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -105,25 +109,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            const Text(
-                              "Welcome Back",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                              ),
+                            // Replaced inline header with extracted widgets
+                            const SizedBox(height: 8),
+                            const AuthTitle(
+                              title: "Welcome Back",
+                              fontSize: 32,
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              "Log in to continue your mapping journey",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white.withOpacity(0.7),
-                              ),
+                            const AuthSubtitle(
+                              subtitle:
+                                  "Log in to continue your mapping journey",
                             ),
                             const SizedBox(height: 48),
                             CustomTextfield(
@@ -172,10 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                onPressed: () => Navigator.pushNamed(
-                                  context,
-                                  'ForgetPassword',
-                                ),
+                                onPressed: () =>
+                                    context.push('/forget-password'),
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
@@ -264,10 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         onPressed: () {
                                           // Log in as guest by navigating to Main
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            'Main',
-                                          );
+                                          context.go('/home');
                                         },
                                         child: const Text(
                                           "LOGIN AS GUEST",
@@ -294,8 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, 'Signup'),
+                                  onPressed: () => context.push('/signup'),
                                   child: const Text(
                                     "Create Account",
                                     style: TextStyle(

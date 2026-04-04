@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+
+class AuthButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final double width;
+  final Color backgroundColor;
+
+  const AuthButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.width = 200,
+    this.backgroundColor = const Color(0xff0E86D4),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: 55,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}

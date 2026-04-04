@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../domain/entities/course.dart';
 import '../cubit/course_cubit.dart';
 import '../cubit/course_state.dart';
-import '../widgets/course_widgets.dart';
+import '../widgets/course_card.dart';
 
 class CourseListScreen extends StatelessWidget {
   final CourseCategory category;
@@ -29,7 +30,7 @@ class CourseListScreen extends StatelessWidget {
                   ? Colors.black
                   : Colors.white,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
           ),
         ),
         body: Padding(

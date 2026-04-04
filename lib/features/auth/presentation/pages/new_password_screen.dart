@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/custom_textfield.dart';
 
 class NewPasswordScreen extends StatefulWidget {
@@ -35,9 +36,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    "images/Screenshot 2023-04-07 021621.png",
-                  ),
+                  image: AssetImage("images/Screenshot 2023-04-07 021621.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -62,7 +61,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
@@ -120,11 +119,19 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
-                                onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                                onPressed: () => setState(
+                                  () =>
+                                      _isPasswordVisible = !_isPasswordVisible,
+                                ),
                               ),
-                              validator: (value) => (value == null || value.length < 6) ? 'Password must be 6+ chars' : null,
+                              validator: (value) =>
+                                  (value == null || value.length < 6)
+                                  ? 'Password must be 6+ chars'
+                                  : null,
                             ),
                             const SizedBox(height: 20),
                             CustomTextfield(
@@ -134,12 +141,18 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isConfirmPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
-                                onPressed: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
+                                onPressed: () => setState(
+                                  () => _isConfirmPasswordVisible =
+                                      !_isConfirmPasswordVisible,
+                                ),
                               ),
                               validator: (value) {
-                                if (value != _newPasswordController.text) return 'Passwords do not match';
+                                if (value != _newPasswordController.text)
+                                  return 'Passwords do not match';
                                 return null;
                               },
                             ),
@@ -149,10 +162,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               height: 56,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).primaryColor,
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).primaryColor,
                                   foregroundColor: Colors.white,
                                   elevation: 8,
-                                  shadowColor: Theme.of(context).primaryColor.withOpacity(0.4),
+                                  shadowColor: Theme.of(
+                                    context,
+                                  ).primaryColor.withOpacity(0.4),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
@@ -162,12 +179,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     // Handle password reset success
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Password reset successful!"),
+                                        content: Text(
+                                          "Password reset successful!",
+                                        ),
                                         backgroundColor: Colors.green,
                                         behavior: SnackBarBehavior.floating,
                                       ),
                                     );
-                                    Navigator.pushNamedAndRemoveUntil(context, 'Login', (route) => false);
+                                    context.go('/login');
                                   }
                                 },
                                 child: const Text(

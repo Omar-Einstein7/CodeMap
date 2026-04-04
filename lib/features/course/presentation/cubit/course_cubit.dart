@@ -28,4 +28,13 @@ class CourseCubit extends Cubit<CourseState> {
       emit(CourseError(e.toString()));
     }
   }
+
+  Future<void> globalSearch(String query) async {
+    try {
+      final courses = await _repository.globalSearch(query);
+      emit(CourseLoaded(courses: courses, query: query));
+    } catch (e) {
+      emit(CourseError(e.toString()));
+    }
+  }
 }

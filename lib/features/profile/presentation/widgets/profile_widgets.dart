@@ -18,6 +18,7 @@ class ProfileMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -25,7 +26,7 @@ class ProfileMenuItem extends StatelessWidget {
         height: 60,
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
         decoration: BoxDecoration(
-          color: color ?? Colors.blue,
+          color: color ?? theme.primaryColor,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(

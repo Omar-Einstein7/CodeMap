@@ -1,3 +1,5 @@
+import 'section.dart';
+
 enum CourseCategory {
   mobile,
   frontend,
@@ -27,12 +29,26 @@ class Course {
   final String imageUrl;
   final CourseCategory category;
   final String? description;
+  final List<Section> sections; // Hierarchy Root
+  final bool isPremium; // For monetization gating
 
-  Course({
+  const Course({
     required this.id,
     required this.name,
     required this.imageUrl,
     required this.category,
     this.description,
+    this.sections = const [], // Default to empty for list views
+    this.isPremium = false,
   });
+
+  /// Helper to calculate total course duration
+  Duration get totalDuration {
+    return sections.fold(Duration.zero, (prev, curr) => prev + curr.totalDuration);
+  }
+
+  /// Helper to get total lesson count
+  int get totalLessons {
+    return sections.fold(0, (prev, curr) => prev + curr.lessonCount);
+  }
 }

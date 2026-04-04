@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/entities/course.dart';
 
 class CourseContentScreen extends StatelessWidget {
@@ -31,7 +32,7 @@ class CourseContentScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: Column(
@@ -59,14 +60,21 @@ class CourseContentScreen extends StatelessWidget {
                     bottom: 10,
                     right: 10,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black54,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
                         "PREVIEW",
-                        style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -74,7 +82,7 @@ class CourseContentScreen extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Enrollment Success Banner
           Container(
             width: double.infinity,
@@ -109,7 +117,10 @@ class CourseContentScreen extends StatelessWidget {
                 ),
                 Text(
                   "${videos.length} Lessons",
-                  style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: theme.primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -127,9 +138,11 @@ class CourseContentScreen extends StatelessWidget {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
-                    color: isSelected 
-                      ? theme.primaryColor.withOpacity(0.1) 
-                      : (isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.02)),
+                    color: isSelected
+                        ? theme.primaryColor.withOpacity(0.1)
+                        : (isDark
+                              ? Colors.white.withOpacity(0.05)
+                              : Colors.black.withOpacity(0.02)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ListTile(
@@ -137,26 +150,36 @@ class CourseContentScreen extends StatelessWidget {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: isSelected ? theme.primaryColor : Colors.grey[400],
+                        color: isSelected
+                            ? theme.primaryColor
+                            : Colors.grey[400],
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(
                           "${index + 1}",
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     title: Text(
                       video["title"]!,
                       style: TextStyle(
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         color: isSelected ? theme.primaryColor : null,
                       ),
                     ),
                     subtitle: Text(
                       video["duration"]!,
-                      style: TextStyle(fontSize: 12, color: isDark ? Colors.white60 : Colors.black54),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDark ? Colors.white60 : Colors.black54,
+                      ),
                     ),
                     trailing: Icon(
                       isSelected ? Icons.play_arrow : Icons.lock_outline,

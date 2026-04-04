@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/custom_textfield.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
@@ -31,9 +32,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    "images/Screenshot 2023-04-07 021621.png",
-                  ),
+                  image: AssetImage("images/Screenshot 2023-04-07 021621.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -58,7 +57,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
@@ -115,7 +114,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               obscureText: false,
                               prefixIcon: const Icon(Icons.numbers),
                               validator: (value) {
-                                if (value == null || value.isEmpty) return 'Code is required';
+                                if (value == null || value.isEmpty)
+                                  return 'Code is required';
                                 return null;
                               },
                             ),
@@ -125,17 +125,21 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               height: 56,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).primaryColor,
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).primaryColor,
                                   foregroundColor: Colors.white,
                                   elevation: 8,
-                                  shadowColor: Theme.of(context).primaryColor.withOpacity(0.4),
+                                  shadowColor: Theme.of(
+                                    context,
+                                  ).primaryColor.withOpacity(0.4),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    Navigator.pushNamed(context, 'NewPassword');
+                                    context.push('/new-password');
                                   }
                                 },
                                 child: const Text(

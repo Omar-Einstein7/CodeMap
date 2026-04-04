@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/custom_textfield.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -31,9 +32,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    "images/Screenshot 2023-04-07 021535.png",
-                  ),
+                  image: AssetImage("images/Screenshot 2023-04-07 021535.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -58,7 +57,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
@@ -115,8 +114,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               obscureText: false,
                               prefixIcon: const Icon(Icons.email_outlined),
                               validator: (value) {
-                                if (value == null || value.isEmpty) return 'Email is required';
-                                if (!value.contains('@')) return 'Enter a valid email';
+                                if (value == null || value.isEmpty)
+                                  return 'Email is required';
+                                if (!value.contains('@'))
+                                  return 'Enter a valid email';
                                 return null;
                               },
                             ),
@@ -126,17 +127,21 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               height: 56,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).primaryColor,
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).primaryColor,
                                   foregroundColor: Colors.white,
                                   elevation: 8,
-                                  shadowColor: Theme.of(context).primaryColor.withOpacity(0.4),
+                                  shadowColor: Theme.of(
+                                    context,
+                                  ).primaryColor.withOpacity(0.4),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    Navigator.pushNamed(context, 'VerifyCode');
+                                    context.push('/verify-code');
                                   }
                                 },
                                 child: const Text(
@@ -151,7 +156,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             ),
                             const SizedBox(height: 24),
                             TextButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () => context.pop(),
                               child: Text(
                                 "Back to Login",
                                 style: TextStyle(
