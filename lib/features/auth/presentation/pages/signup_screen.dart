@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/di/service_locator.dart';
+import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
 import '../widgets/auth_button.dart';
