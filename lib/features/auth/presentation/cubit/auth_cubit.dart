@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/session/session_cubit.dart';
-import '../../../../core/utils/result.dart';
+import 'package:codemap2/src/services/session_cubit.dart';
+import 'package:codemap2/src/utils/result.dart';
 import '../../domain/repositories/auth_repository.dart';
 import 'auth_state.dart';
 
