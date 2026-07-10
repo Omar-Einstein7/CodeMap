@@ -2,7 +2,7 @@ import 'package:codemap2/features/course/presentation/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/di/service_locator.dart';
+import 'package:codemap2/src/services/service_locator.dart';
 import '../cubit/course_cubit.dart';
 import '../cubit/course_state.dart';
 
