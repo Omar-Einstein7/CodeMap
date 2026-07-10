@@ -1,5 +1,5 @@
-import '../../../../core/error/failures.dart';
-import '../../../../core/utils/result.dart';
+import 'package:codemap2/src/utils/failures.dart';
+import 'package:codemap2/src/utils/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_data_source.dart';
