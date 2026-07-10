@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/di/service_locator.dart';
+import 'package:codemap2/src/services/service_locator.dart';
 
 import '../cubit/favourite_cubit.dart';
 import '../cubit/favourite_state.dart';
