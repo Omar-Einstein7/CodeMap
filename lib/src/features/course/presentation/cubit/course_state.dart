@@ -1,4 +1,4 @@
-import 'package:codemap2/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
 import 'package:equatable/equatable.dart';
 
 

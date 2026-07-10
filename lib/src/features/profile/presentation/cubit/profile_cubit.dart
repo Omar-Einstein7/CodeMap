@@ -1,5 +1,5 @@
-import 'package:codemap2/features/profile/domain/entities/user_profile.dart';
-import 'package:codemap2/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:codemap2/src/features/profile/domain/entities/user_profile.dart';
+import 'package:codemap2/src/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'profile_state.dart';

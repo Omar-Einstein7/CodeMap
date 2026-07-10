@@ -1,5 +1,5 @@
 
-import 'package:codemap2/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
 
 abstract class FavouriteRepository {
   Future<List<Course>> getFavourites();

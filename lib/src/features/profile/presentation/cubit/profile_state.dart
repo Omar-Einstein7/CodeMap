@@ -1,4 +1,4 @@
-import 'package:codemap2/features/profile/domain/entities/user_profile.dart';
+import 'package:codemap2/src/features/profile/domain/entities/user_profile.dart';
 import 'package:equatable/equatable.dart';
 
 

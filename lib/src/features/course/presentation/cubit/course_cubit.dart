@@ -1,5 +1,5 @@
-import 'package:codemap2/features/course/domain/entities/course.dart';
-import 'package:codemap2/features/course/domain/repositories/course_repository.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/features/course/domain/repositories/course_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'course_state.dart';
