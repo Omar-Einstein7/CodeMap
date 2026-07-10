@@ -1,4 +1,4 @@
-import '../../../../core/utils/result.dart';
+import 'package:codemap2/src/utils/result.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {
