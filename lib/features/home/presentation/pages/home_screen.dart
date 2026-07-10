@@ -3,10 +3,10 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/di/service_locator.dart';
+import 'package:codemap2/src/services/service_locator.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
-import '../../../../core/theme/app_theme.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
