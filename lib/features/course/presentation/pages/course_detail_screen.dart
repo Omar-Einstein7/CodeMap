@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:codemap2/core/di/service_locator.dart';
+import 'package:codemap2/src/services/service_locator.dart';
 import '../../domain/entities/course.dart';
 import '../../domain/entities/section.dart';
 import '../../domain/entities/lesson.dart';
