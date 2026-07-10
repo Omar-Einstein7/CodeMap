@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:codemap2/src/theme/app_theme.dart';
 import '../../domain/entities/course.dart';
 import '../widgets/category_card.dart';
 import 'course_list_screen.dart';
 
-class CategoryListScreen extends ConsumerWidget {
+class CategoryListScreen extends StatelessWidget {
   const CategoryListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(

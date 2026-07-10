@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import 'package:codemap2/src/services/session_cubit.dart';
 import 'package:codemap2/src/services/session_state.dart';
@@ -10,11 +8,11 @@ import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 import '../widgets/profile_widgets.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return BlocBuilder<SessionCubit, SessionState>(

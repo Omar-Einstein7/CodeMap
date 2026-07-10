@@ -2,18 +2,15 @@ import 'package:codemap2/src/features/course/presentation/widgets/course_card.da
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:codemap2/src/services/service_locator.dart';
-
 import '../cubit/favourite_cubit.dart';
 import '../cubit/favourite_state.dart';
 
-class FavouriteScreen extends ConsumerWidget {
+class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return BlocProvider(
