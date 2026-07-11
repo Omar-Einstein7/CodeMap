@@ -1,9 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:codemap2/src/services/service_locator.dart' as di;
-import 'package:codemap2/src/app.dart';
+import 'src/imports/core_imports.dart';
+import 'src/imports/packages_imports.dart';
+import 'src/app.dart';
+import 'src/services/service_locator.dart' as di;
+
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  
+  await EasyLocalization.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+  
+  await AppConfig.init();
   await di.init();
-  runApp(const CodeMapApp());
+
+  runApp(
+    const LocalizationWrapper(
+      child: App(),
+    ),
+  );
 }
