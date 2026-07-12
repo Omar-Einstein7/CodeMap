@@ -42,3 +42,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# API - Node.js/Express/MongoDB
+api/node_modules/
+api/.env
+api/
+.opencode/
+.env
+.trae/
+.agents/
