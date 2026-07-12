@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class FeaturedCoursesList extends StatelessWidget {
   final List<String> courses;
@@ -14,6 +15,7 @@ class FeaturedCoursesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final height = MediaQuery.of(context).size.height;
     return SizedBox(
       height: height * 0.32,
@@ -27,17 +29,15 @@ class FeaturedCoursesList extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             decoration: BoxDecoration(
-              color: theme.brightness == Brightness.light
-                  ? Colors.white
-                  : const Color(0xFF333333),
+              color: isDark
+                  ? AppColors.glassDark
+                  : AppColors.glassLight,
               borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 15,
-                  offset: const Offset(0, 8),
-                ),
-              ],
+              border: Border.all(
+                color: isDark
+                    ? AppColors.glassBorderDark
+                    : AppColors.glassBorderLight,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +48,9 @@ class FeaturedCoursesList extends StatelessWidget {
                     padding: const EdgeInsets.all(15),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.grey[50],
+                      color: isDark
+                          ? Colors.white.withOpacity(0.04)
+                          : Colors.white.withOpacity(0.5),
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(25),
                       ),
@@ -65,11 +67,11 @@ class FeaturedCoursesList extends StatelessWidget {
                     ),
                     child: Text(
                       courses[index],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
-                        color: Colors.black,
+                        color: isDark ? Colors.white : Colors.black87,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
