@@ -1,8 +1,10 @@
+import 'package:equatable/equatable.dart';
+
 enum LessonType { video, text, quiz }
 
 /// Represents the atomic unit of learning content.
 /// Using Dart 3 sealed class for exhaustive pattern matching.
-sealed class Lesson {
+sealed class Lesson extends Equatable {
   final String id;
   final String title;
   final String sectionId;
@@ -16,6 +18,9 @@ sealed class Lesson {
     required this.estimatedDuration,
     this.isPreview = false,
   });
+
+  @override
+  List<Object?> get props => [id, title, sectionId, estimatedDuration, isPreview];
 }
 
 class VideoLesson extends Lesson {
@@ -33,6 +38,9 @@ class VideoLesson extends Lesson {
     this.thumbnailUrl,
     super.isPreview,
   });
+
+  @override
+  List<Object?> get props => [...super.props, videoUrl, transcript, thumbnailUrl];
 }
 
 class TextLesson extends Lesson {
@@ -48,6 +56,9 @@ class TextLesson extends Lesson {
     this.resourceUrls,
     super.isPreview,
   });
+
+  @override
+  List<Object?> get props => [...super.props, markdownContent, resourceUrls];
 }
 
 class QuizLesson extends Lesson {
@@ -63,10 +74,13 @@ class QuizLesson extends Lesson {
     this.passingScore = 70, // Default 70%
     super.isPreview,
   });
+
+  @override
+  List<Object?> get props => [...super.props, questions, passingScore];
 }
 
 /// Helper entity for Quiz Questions
-class QuizQuestion {
+class QuizQuestion extends Equatable {
   final String id;
   final String text;
   final List<String> options;
@@ -80,4 +94,7 @@ class QuizQuestion {
     required this.correctOptionIndex,
     this.explanation,
   });
+
+  @override
+  List<Object?> get props => [id, text, options, correctOptionIndex, explanation];
 }
