@@ -301,70 +301,78 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (_, index) {
-                          return Container(
-                            width: width * 0.45,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 12,
+                          final course = state.featuredCourseData[index];
+                          return GestureDetector(
+                            onTap: () => context.push(
+                              '/courses/course-detail/${course.id}',
+                              extra: course,
                             ),
-                            decoration: BoxDecoration(
-                              color: isLightTheme
-                                  ? Colors.white
-                                  : const Color(0xFF333333),
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
-                                  blurRadius: 15,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(15),
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: isLightTheme
-                                          ? Colors.grey[50]
-                                          : const Color(0xFF3D3D3D),
-                                      borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(25),
-                                      ),
-                                    ),
-                                    child: Image.asset(
-                                      state.featuredImages[index],
-                                      fit: BoxFit.contain,
-                                    ),
+                            child: Container(
+                              width: width * 0.45,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isLightTheme
+                                    ? Colors.white
+                                    : const Color(0xFF333333),
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 8),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 10,
-                                    ),
-                                    child: Text(
-                                      state.featuredCourses[index],
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                        letterSpacing: 0.5,
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(15),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
                                         color: isLightTheme
-                                            ? Colors.black
-                                            : Colors.white,
+                                            ? Colors.grey[50]
+                                            : const Color(0xFF3D3D3D),
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                          top: Radius.circular(25),
+                                        ),
                                       ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                      child: Image.asset(
+                                        course.imageUrl,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 10,
+                                      ),
+                                      child: Text(
+                                        course.name,
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 0.5,
+                                          color: isLightTheme
+                                              ? Colors.black
+                                              : Colors.white,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -385,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () => context.push('/courses'),
                             child: Text(
                               "See All",
                               style: TextStyle(
@@ -410,80 +418,88 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 5
                           : state.featuredCourses.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 15),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isLightTheme
-                                ? Colors.white
-                                : const Color(0xFF333333),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+                        final course = state.featuredCourseData[index];
+                        return GestureDetector(
+                          onTap: () => context.push(
+                            '/courses/course-detail/${course.id}',
+                            extra: course,
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 70,
-                                width: 70,
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: isLightTheme
-                                      ? Colors.grey[50]
-                                      : const Color(0xFF3D3D3D),
-                                  borderRadius: BorderRadius.circular(15),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 15),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isLightTheme
+                                  ? Colors.white
+                                  : const Color(0xFF333333),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
                                 ),
-                                child: Image.asset(
-                                  state.featuredImages[index],
-                                  fit: BoxFit.contain,
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: isLightTheme
+                                        ? Colors.grey[50]
+                                        : const Color(0xFF3D3D3D),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Image.asset(
+                                    course.imageUrl,
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.featuredCourses[index],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: isLightTheme
-                                            ? Colors.black
-                                            : Colors.white,
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        course.name,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: isLightTheme
+                                              ? Colors.black
+                                              : Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "ELZERO WEB SCHOOL",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: isLightTheme
-                                            ? Colors.grey[600]
-                                            : Colors.grey[400],
-                                        letterSpacing: 0.5,
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "ELZERO WEB SCHOOL",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: isLightTheme
+                                              ? Colors.grey[600]
+                                              : Colors.grey[400],
+                                          letterSpacing: 0.5,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: theme.primaryColor.withOpacity(0.1),
-                                  shape: BoxShape.circle,
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: theme.primaryColor.withOpacity(0.1),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    BoxIcons.bx_chevron_right,
+                                    color: theme.primaryColor,
+                                  ),
                                 ),
-                                child: Icon(
-                                  BoxIcons.bx_chevron_right,
-                                  color: theme.primaryColor,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

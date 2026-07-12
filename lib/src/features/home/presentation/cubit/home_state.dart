@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
@@ -16,12 +17,14 @@ class HomeLoaded extends HomeState {
   final List<String> categories;
   final List<String> featuredCourses;
   final List<String> featuredImages;
+  final List<Course> featuredCourseData;
 
   const HomeLoaded({
     required this.selectedCategoryIndex,
     required this.categories,
     required this.featuredCourses,
     required this.featuredImages,
+    required this.featuredCourseData,
   });
 
   @override
@@ -30,6 +33,7 @@ class HomeLoaded extends HomeState {
         categories,
         featuredCourses,
         featuredImages,
+        featuredCourseData,
       ];
 }
 
