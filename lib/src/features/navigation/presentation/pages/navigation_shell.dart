@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,9 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/theme/theme_cubit.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 
+// ─── Shell ────────────────────────────────────────────────────────────────────
+
 class NavigationShell extends StatelessWidget {
   final Widget child;
-
   const NavigationShell({super.key, required this.child});
 
   @override
@@ -16,10 +18,10 @@ class NavigationShell extends StatelessWidget {
     final isLight = theme.brightness == Brightness.light;
 
     const items = <_NavItem>[
-      _NavItem(icon: Icons.home_rounded, label: 'Home'),
-      _NavItem(icon: Icons.favorite_rounded, label: 'Favourites'),
-      _NavItem(icon: Icons.library_books_rounded, label: 'Courses'),
-      _NavItem(icon: Icons.person_rounded, label: 'Profile'),
+      _NavItem(icon: Icons.home_rounded,          label: 'Home'),
+      _NavItem(icon: Icons.favorite_rounded,       label: 'Favourites'),
+      _NavItem(icon: Icons.library_books_rounded,  label: 'Courses'),
+      _NavItem(icon: Icons.person_rounded,         label: 'Profile'),
     ];
 
     final tabPaths = ['/home', '/favourites', '/courses', '/profile'];
@@ -48,208 +50,356 @@ class NavigationShell extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _ClayNavBar(
+      bottomNavigationBar: _LiquidGlassNavBar(
         items: items,
         activeIndex: activeIndex,
-        isLight: isLight,
         primaryColor: theme.colorScheme.primary,
-        onTap: (index) => context.go(tabPaths[index]),
+        secondaryColor: theme.colorScheme.secondary,
+        isLight: isLight,
+        onTap: (i) => context.go(tabPaths[i]),
       ),
     );
   }
 }
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 class _NavItem {
   final IconData icon;
-  final String label;
+  final String   label;
   const _NavItem({required this.icon, required this.label});
 }
 
-class _ClayNavBar extends StatelessWidget {
-  final List<_NavItem> items;
-  final int activeIndex;
-  final bool isLight;
-  final Color primaryColor;
+// ─── Nav Bar ──────────────────────────────────────────────────────────────────
+
+class _LiquidGlassNavBar extends StatefulWidget {
+  final List<_NavItem>    items;
+  final int               activeIndex;
+  final Color             primaryColor;
+  final Color             secondaryColor;
+  final bool              isLight;
   final ValueChanged<int> onTap;
 
-  const _ClayNavBar({
+  const _LiquidGlassNavBar({
     required this.items,
     required this.activeIndex,
-    required this.isLight,
     required this.primaryColor,
-    required this.onTap,
-  });
-
-  Color get _trayColor => isLight
-      ? const Color(0xFFEEF1F8)
-      : const Color(0xFF1A1D28);
-
-  Color get _trayBorder => isLight
-      ? const Color(0xFFDCE0EC)
-      : const Color(0xFF2A2D3A);
-
-  List<BoxShadow> get _trayShadow => [
-        BoxShadow(
-          color: isLight
-              ? Colors.white.withValues(alpha: 0.8)
-              : const Color(0xFF2E3240).withValues(alpha: 0.6),
-          blurRadius: 12,
-          offset: const Offset(-4, -4),
-        ),
-        BoxShadow(
-          color: isLight
-              ? Colors.black.withValues(alpha: 0.10)
-              : Colors.black.withValues(alpha: 0.45),
-          blurRadius: 16,
-          offset: const Offset(4, 6),
-        ),
-      ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
-      child: Container(
-        height: 72,
-        decoration: BoxDecoration(
-          color: _trayColor,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: _trayBorder, width: 2),
-          boxShadow: _trayShadow,
-        ),
-        child: Row(
-          children: List.generate(items.length, (i) {
-            final isActive = i == activeIndex;
-            final item = items[i];
-            return Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  i == 0 ? 6 : 3,
-                  6,
-                  i == items.length - 1 ? 6 : 3,
-                  6,
-                ),
-                child: _ClayNavItem(
-                  item: item,
-                  isActive: isActive,
-                  isLight: isLight,
-                  primaryColor: primaryColor,
-                  trayColor: _trayColor,
-                  onTap: () => onTap(i),
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
-}
-
-class _ClayNavItem extends StatefulWidget {
-  final _NavItem item;
-  final bool isActive;
-  final bool isLight;
-  final Color primaryColor;
-  final Color trayColor;
-  final VoidCallback onTap;
-
-  const _ClayNavItem({
-    required this.item,
-    required this.isActive,
+    required this.secondaryColor,
     required this.isLight,
-    required this.primaryColor,
-    required this.trayColor,
     required this.onTap,
   });
 
   @override
-  State<_ClayNavItem> createState() => _ClayNavItemState();
+  State<_LiquidGlassNavBar> createState() => _LiquidGlassNavBarState();
 }
 
-class _ClayNavItemState extends State<_ClayNavItem>
+class _LiquidGlassNavBarState extends State<_LiquidGlassNavBar>
     with SingleTickerProviderStateMixin {
-  late AnimationController _popController;
-  late Animation<double> _popAnim;
-  bool _isPressed = false;
+  late AnimationController _blobCtrl;
+  late Animation<double>   _blobAnim;
+  int _prevIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _popController = AnimationController(
-      duration: const Duration(milliseconds: 500),
+    _prevIndex = widget.activeIndex;
+    _blobCtrl = AnimationController(
       vsync: this,
+      duration: const Duration(milliseconds: 420),
     );
-    _popAnim = CurvedAnimation(
-      parent: _popController,
-      curve: Curves.elasticOut,
+    _blobAnim = CurvedAnimation(
+      parent: _blobCtrl,
+      curve: Curves.easeInOutCubic,
     );
-    if (widget.isActive) {
-      _popController.value = 1.0;
-    }
+    _blobCtrl.value = 1.0; // start settled
   }
 
   @override
-  void didUpdateWidget(_ClayNavItem old) {
+  void didUpdateWidget(_LiquidGlassNavBar old) {
     super.didUpdateWidget(old);
-    if (widget.isActive && !old.isActive) {
-      _popController.forward(from: 0.0);
+    if (old.activeIndex != widget.activeIndex) {
+      _prevIndex = old.activeIndex;
+      _blobCtrl.forward(from: 0.0);
     }
   }
 
   @override
   void dispose() {
-    _popController.dispose();
+    _blobCtrl.dispose();
     super.dispose();
   }
 
-  Color get _clayBase {
-    if (widget.isActive) return widget.primaryColor;
-    return widget.trayColor;
-  }
+  @override
+  Widget build(BuildContext context) {
+    final count = widget.items.length;
 
-  Color get _borderColor {
-    if (widget.isActive) return widget.primaryColor;
-    return widget.isLight
-        ? Colors.black.withValues(alpha: 0.08)
-        : Colors.white.withValues(alpha: 0.06);
-  }
+    // Glass tray colours
+    final trayBg = widget.isLight
+        ? Colors.white.withValues(alpha: 0.18)
+        : Colors.black.withValues(alpha: 0.28);
+    final trayBorder = widget.isLight
+        ? Colors.white.withValues(alpha: 0.45)
+        : Colors.white.withValues(alpha: 0.18);
 
-  double get _borderWidth => widget.isActive ? 3 : 1;
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 28),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(32),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 36, sigmaY: 36),
+          child: Container(
+            decoration: BoxDecoration(
+              color: trayBg,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(color: trayBorder, width: 1.2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.18),
+                  blurRadius: 32,
+                  offset: const Offset(0, 12),
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.06),
+                  blurRadius: 2,
+                  offset: const Offset(0, -1),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              height: 76,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final totalW = constraints.maxWidth;
+                  final cellW  = totalW / count;
 
-  List<BoxShadow> get _itemShadow {
-    if (widget.isActive) {
-      return [
-        BoxShadow(
-          color: widget.isLight
-              ? Colors.white.withValues(alpha: 0.7)
-              : const Color(0xFF2E3240).withValues(alpha: 0.5),
-          blurRadius: 6,
-          offset: const Offset(-2, -2),
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // ── Animated liquid blob ──────────────────────────────
+                      AnimatedBuilder(
+                        animation: _blobAnim,
+                        builder: (_, __) {
+                          final fromX = _prevIndex * cellW;
+                          final toX   = widget.activeIndex * cellW;
+                          final cx    = lerpDouble(fromX, toX, _blobAnim.value)!;
+
+                          return Positioned(
+                            left: cx + cellW * 0.08,
+                            top: 8,
+                            child: _LiquidBlob(
+                              width: cellW * 0.84,
+                              height: 60,
+                              progress: _blobAnim.value,
+                              primaryColor: widget.primaryColor,
+                              secondaryColor: widget.secondaryColor,
+                            ),
+                          );
+                        },
+                      ),
+
+                      // ── Tab items ─────────────────────────────────────────
+                      Row(
+                        children: List.generate(count, (i) {
+                          final isActive = i == widget.activeIndex;
+                          final item     = widget.items[i];
+                          return Expanded(
+                            child: _GlassNavItem(
+                              item:        item,
+                              isActive:    isActive,
+                              onTap: () {
+                                HapticFeedback.lightImpact();
+                                widget.onTap(i);
+                              },
+                            ),
+                          );
+                        }),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
         ),
-        BoxShadow(
-          color: widget.primaryColor.withValues(alpha: 0.3),
-          blurRadius: 10,
-          offset: const Offset(3, 4),
-        ),
-      ];
-    }
-    return [
-      BoxShadow(
-        color: widget.isLight
-            ? Colors.black.withValues(alpha: 0.04)
-            : Colors.black.withValues(alpha: 0.2),
-        blurRadius: 4,
-        offset: const Offset(0, 1),
       ),
-    ];
+    );
+  }
+}
+
+// ─── Liquid Blob ──────────────────────────────────────────────────────────────
+
+class _LiquidBlob extends StatelessWidget {
+  final double width;
+  final double height;
+  final double progress;      // 0→1 during slide animation
+  final Color  primaryColor;
+  final Color  secondaryColor;
+
+  const _LiquidBlob({
+    required this.width,
+    required this.height,
+    required this.progress,
+    required this.primaryColor,
+    required this.secondaryColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(width, height),
+      painter: _BlobPainter(
+        progress:       progress,
+        primaryColor:   primaryColor,
+        secondaryColor: secondaryColor,
+      ),
+    );
+  }
+}
+
+class _BlobPainter extends CustomPainter {
+  final double progress;
+  final Color  primaryColor;
+  final Color  secondaryColor;
+
+  const _BlobPainter({
+    required this.progress,
+    required this.primaryColor,
+    required this.secondaryColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    // Squish factor: blob stretches wide mid-travel, snaps back at destination
+    // progress==0 → just left destination; 0.5 → mid-travel; 1 → settled
+    final squish = Curves.easeInOut.transform(
+      (progress < 0.5)
+          ? progress * 2         // 0→1 while travelling
+          : (1 - progress) * 2,  // 1→0 while arriving
+    );
+
+    final xScale = 1.0 + squish * 0.18;   // max 18 % wider at mid-travel
+    final yScale = 1.0 - squish * 0.10;   // max 10 % shorter at mid-travel
+
+    final cx = w / 2;
+    final cy = h / 2;
+    final rw  = (w / 2) * xScale;
+    final rh  = (h / 2) * yScale;
+
+    // Organic blob: rounded rect with slight asymmetric control points
+    final path = Path();
+    const k = 0.55; // cubic bezier approximation constant for circles
+
+    // Top-left corner slightly more organic
+    path.moveTo(cx, cy - rh);
+
+    path.cubicTo(
+      cx + rw * k,  cy - rh,
+      cx + rw,      cy - rh * k,
+      cx + rw,      cy,
+    );
+    path.cubicTo(
+      cx + rw,      cy + rh * (k + squish * 0.15),
+      cx + rw * k,  cy + rh,
+      cx,           cy + rh,
+    );
+    path.cubicTo(
+      cx - rw * k,  cy + rh,
+      cx - rw,      cy + rh * (k + squish * 0.15),
+      cx - rw,      cy,
+    );
+    path.cubicTo(
+      cx - rw,      cy - rh * k,
+      cx - rw * k,  cy - rh,
+      cx,           cy - rh,
+    );
+    path.close();
+
+    // Gradient fill
+    final paint = Paint()
+      ..shader = RadialGradient(
+        center: const Alignment(-0.3, -0.4),
+        radius: 1.1,
+        colors: [
+          secondaryColor.withValues(alpha: 0.95),
+          primaryColor.withValues(alpha: 1.0),
+          primaryColor.withValues(alpha: 0.85),
+        ],
+        stops: const [0.0, 0.55, 1.0],
+      ).createShader(Rect.fromCenter(
+        center: Offset(cx, cy),
+        width: rw * 2,
+        height: rh * 2,
+      ))
+      ..style = PaintingStyle.fill;
+
+    canvas.drawPath(path, paint);
+
+    // Specular highlight — top-left gloss
+    final glossPaint = Paint()
+      ..shader = RadialGradient(
+        center: const Alignment(-0.5, -0.6),
+        radius: 0.6,
+        colors: [
+          Colors.white.withValues(alpha: 0.30),
+          Colors.white.withValues(alpha: 0.0),
+        ],
+      ).createShader(Rect.fromCenter(
+        center: Offset(cx, cy),
+        width: rw * 2,
+        height: rh * 2,
+      ))
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(path, glossPaint);
   }
 
-  Color get _iconColor {
-    if (widget.isActive) return Colors.white;
-    return widget.isLight
-        ? Colors.black38
-        : Colors.white38;
+  @override
+  bool shouldRepaint(_BlobPainter old) =>
+      old.progress != progress ||
+      old.primaryColor != primaryColor ||
+      old.secondaryColor != secondaryColor;
+}
+
+// ─── Individual nav item ──────────────────────────────────────────────────────
+
+class _GlassNavItem extends StatefulWidget {
+  final _NavItem   item;
+  final bool       isActive;
+  final VoidCallback onTap;
+
+  const _GlassNavItem({
+    required this.item,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  State<_GlassNavItem> createState() => _GlassNavItemState();
+}
+
+class _GlassNavItemState extends State<_GlassNavItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pressCtrl;
+  late Animation<double>   _pressAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _pressCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 120),
+      reverseDuration: const Duration(milliseconds: 200),
+    );
+    _pressAnim = Tween<double>(begin: 1.0, end: 0.88)
+        .animate(CurvedAnimation(parent: _pressCtrl, curve: Curves.easeOut));
+  }
+
+  @override
+  void dispose() {
+    _pressCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -259,83 +409,48 @@ class _ClayNavItemState extends State<_ClayNavItem>
       selected: widget.isActive,
       label: widget.item.label,
       child: GestureDetector(
-        onTapDown: (_) => setState(() => _isPressed = true),
-        onTapUp: (_) => setState(() => _isPressed = false),
-        onTapCancel: () => setState(() => _isPressed = false),
-        onTap: () {
-          HapticFeedback.lightImpact();
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) => _pressCtrl.forward(),
+        onTapUp: (_) {
+          _pressCtrl.reverse();
           widget.onTap();
         },
-        child: AnimatedScale(
-          scale: _isPressed ? 0.93 : 1.0,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-          child: AnimatedBuilder(
-            animation: _popAnim,
-            builder: (context, child) {
-              final popScale = 1.0 + (_popAnim.value * 0.05);
-              return Transform.scale(
-                scale: widget.isActive ? popScale : 1.0,
-                child: child,
-              );
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              decoration: BoxDecoration(
-                color: _clayBase,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: _borderColor,
-                  width: _borderWidth,
+        onTapCancel: () => _pressCtrl.reverse(),
+        child: ScaleTransition(
+          scale: _pressAnim,
+          child: SizedBox(
+            height: 76,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedScale(
+                  scale: widget.isActive ? 1.12 : 1.0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutBack,
+                  child: Icon(
+                    widget.item.icon,
+                    size: 24,
+                    color: Colors.white.withValues(
+                      alpha: widget.isActive ? 1.0 : 0.55,
+                    ),
+                  ),
                 ),
-                boxShadow: _itemShadow,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    transitionBuilder: (child, animation) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
-                    },
-                    child: Icon(
-                      widget.item.icon,
-                      key: ValueKey('${widget.isActive}_${widget.item.icon}'),
-                      size: widget.isActive ? 22 : 24,
-                      color: _iconColor,
+                const SizedBox(height: 4),
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 250),
+                  style: TextStyle(
+                    fontSize: widget.isActive ? 11 : 10,
+                    fontWeight: widget.isActive
+                        ? FontWeight.w700
+                        : FontWeight.w400,
+                    color: Colors.white.withValues(
+                      alpha: widget.isActive ? 1.0 : 0.55,
                     ),
+                    letterSpacing: widget.isActive ? 0.2 : 0,
                   ),
-                  const SizedBox(height: 2),
-                  AnimatedSlide(
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeOut,
-                    offset: widget.isActive
-                        ? Offset.zero
-                        : const Offset(0, 0.4),
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 200),
-                      opacity: widget.isActive ? 1.0 : 0.0,
-                      child: Text(
-                        widget.item.label,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: widget.isActive
-                              ? Colors.white
-                              : (widget.isLight
-                                  ? Colors.black38
-                                  : Colors.white38),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  child: Text(widget.item.label),
+                ),
+              ],
             ),
           ),
         ),
