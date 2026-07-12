@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'lesson.dart';
 
 /// Represents a thematic group of lessons (e.g., "Chapter 1: Basics").
-class Section {
+class Section extends Equatable {
   final String id;
   final String title;
   final String? description;
@@ -23,4 +24,7 @@ class Section {
   
   /// Helper to get lesson count
   int get lessonCount => lessons.length;
+
+  @override
+  List<Object?> get props => [id, title, description, orderIndex, lessons];
 }
