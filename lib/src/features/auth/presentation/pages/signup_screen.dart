@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
-import '../widgets/auth_button.dart';
+
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/custom_textfield.dart';
@@ -52,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 behavior: SnackBarBehavior.floating,
               ),
             );
-            context.pop(); // Go back to Login
+            context.pop();
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -120,7 +120,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.15),
+                                    color: Colors.white.withOpacity(0.1),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.15),
+                                    ),
                                   ),
                                   child: const Icon(
                                     Icons.person_add_rounded,
@@ -128,7 +131,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                // Replaced inline header with extracted widgets
                                 const SizedBox(height: 8),
                                 const AuthTitle(
                                   title: "Create Account",
@@ -232,10 +234,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                             context,
                                           ).primaryColor,
                                           foregroundColor: Colors.white,
-                                          elevation: 8,
-                                          shadowColor: Theme.of(
-                                            context,
-                                          ).primaryColor.withOpacity(0.4),
+                                          elevation: 0,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               16,
