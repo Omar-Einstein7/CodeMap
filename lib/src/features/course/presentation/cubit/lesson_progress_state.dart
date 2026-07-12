@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/repositories/progress_repository.dart';
+import '../../domain/entities/course_progress.dart';
 
 sealed class LessonProgressState extends Equatable {
   const LessonProgressState();
