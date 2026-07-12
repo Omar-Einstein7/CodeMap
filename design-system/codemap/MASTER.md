@@ -7,7 +7,7 @@
 ---
 
 **Project:** CodeMap
-**Generated:** 2026-07-13 02:26:09
+**Generated:** 2026-07-13 02:29:13
 **Category:** Educational App
 
 ---
@@ -153,13 +153,13 @@
 
 ## Style Guidelines
 
-**Style:** Micro-interactions
+**Style:** Claymorphism
 
-**Keywords:** Small animations, gesture-based, tactile feedback, subtle animations, contextual interactions, responsive
+**Keywords:** Soft 3D, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px)
 
-**Best For:** Mobile apps, touchscreen UIs, productivity tools, user-friendly, consumer apps, interactive components
+**Best For:** Educational apps, children's apps, SaaS platforms, creative tools, fun-focused, onboarding, casual games
 
-**Key Effects:** Small hover (50-100ms), loading spinners, success/error state anim, gesture-triggered (swipe/pinch), haptic
+**Key Effects:** Inner+outer shadows (subtle, no hard lines), soft press (200ms ease-out), fluffy elements, smooth transitions
 
 ### Page Pattern
 
