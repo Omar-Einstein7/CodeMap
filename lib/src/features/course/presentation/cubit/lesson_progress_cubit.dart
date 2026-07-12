@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/repositories/progress_repository.dart';
+import '../../domain/entities/course_progress.dart';
 import 'lesson_progress_state.dart';
 
 class LessonProgressCubit extends Cubit<LessonProgressState> {
@@ -46,7 +47,7 @@ class LessonProgressCubit extends Cubit<LessonProgressState> {
       // Revert on failure (if needed) or show error
       emit(LessonProgressError("Failed to update progress: ${e.toString()}"));
       // Reload actual state to fix UI
-      loadProgress(userId, courseId);
+      await loadProgress(userId, courseId);
     }
   }
 }
