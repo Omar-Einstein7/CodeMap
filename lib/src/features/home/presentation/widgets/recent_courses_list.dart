@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class RecentCoursesList extends StatelessWidget {
   final List<String> courses;
@@ -24,15 +25,15 @@ class RecentCoursesList extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 15),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isLight ? Colors.white : const Color(0xFF333333),
+            color: isLight
+                ? AppColors.glassLight
+                : AppColors.glassDark,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            border: Border.all(
+              color: isLight
+                  ? AppColors.glassBorderLight
+                  : AppColors.glassBorderDark,
+            ),
           ),
           child: Row(
             children: [
@@ -41,7 +42,9 @@ class RecentCoursesList extends StatelessWidget {
                 width: 70,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: isLight ? Colors.grey[50] : const Color(0xFF3D3D3D),
+                  color: isLight
+                      ? Colors.white.withOpacity(0.5)
+                      : Colors.white.withOpacity(0.04),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Image.asset(images[index], fit: BoxFit.contain),
@@ -56,7 +59,7 @@ class RecentCoursesList extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: isLight ? Colors.black : Colors.white,
+                        color: isLight ? Colors.black87 : Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
