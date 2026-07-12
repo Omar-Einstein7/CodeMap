@@ -1,11 +1,13 @@
-class UserProfile {
+import 'package:equatable/equatable.dart';
+
+class UserProfile extends Equatable {
   final String id;
   final String name;
   final String email;
   final String imageUrl;
   final String? bio;
 
-  UserProfile({
+  const UserProfile({
     required this.id,
     required this.name,
     required this.email,
@@ -28,4 +30,7 @@ class UserProfile {
       bio: bio ?? this.bio,
     );
   }
+
+  @override
+  List<Object?> get props => [id, name, email, imageUrl, bio];
 }
