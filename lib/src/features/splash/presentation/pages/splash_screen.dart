@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codemap2/src/services/splash_cubit.dart';
 import 'package:codemap2/src/services/splash_state.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -20,27 +21,43 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.code_rounded, size: 100, color: Colors.blue),
-            const SizedBox(height: 20),
-            const Text(
-              "CodeMap",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            BlocBuilder<SplashCubit, SplashState>(
-              builder: (context, state) {
-                if (state is SplashInitial) {
-                  return const CircularProgressIndicator();
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: glassBackgroundGradient(isLight),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.code_rounded,
+                size: 100,
+                color: isLight ? AppColors.primary : Colors.orange,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "CodeMap",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: isLight ? Colors.black87 : Colors.white,
+                ),
+              ),
+              const SizedBox(height: 10),
+              BlocBuilder<SplashCubit, SplashState>(
+                builder: (context, state) {
+                  if (state is SplashInitial) {
+                    return CircularProgressIndicator(
+                      color: isLight ? AppColors.primary : Colors.orange,
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
