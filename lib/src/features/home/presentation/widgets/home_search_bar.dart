@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class HomeSearchBar extends StatelessWidget {
   final VoidCallback onTap;
@@ -14,9 +15,14 @@ class HomeSearchBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color: isLight
-              ? Colors.black.withOpacity(0.05)
-              : Colors.white.withOpacity(0.05),
+              ? AppColors.glassLight
+              : AppColors.glassDark,
           borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: isLight
+                ? AppColors.glassBorderLight
+                : AppColors.glassBorderDark,
+          ),
         ),
         child: Row(
           children: [
