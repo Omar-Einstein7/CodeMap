@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/shared/widgets/widgets.dart';
 import '../../domain/entities/course.dart';
 
 class CourseContentScreen extends StatelessWidget {
@@ -23,7 +25,7 @@ class CourseContentScreen extends StatelessWidget {
       {"title": "07 - Final Project & Wrap-up", "duration": "15:40"},
     ];
 
-    return Scaffold(
+    return GlassScaffold(
       appBar: AppBar(
         title: Text(
           course.name,
@@ -139,11 +141,15 @@ class CourseContentScreen extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? theme.primaryColor.withOpacity(0.1)
+                        ? theme.primaryColor.withOpacity(0.15)
                         : (isDark
-                              ? Colors.white.withOpacity(0.05)
-                              : Colors.black.withOpacity(0.02)),
+                              ? Colors.white.withOpacity(0.08)
+                              : Colors.white.withOpacity(0.5)),
                     borderRadius: BorderRadius.circular(12),
+                    border: isSelected
+                        ? Border.all(
+                            color: theme.primaryColor.withOpacity(0.3))
+                        : null,
                   ),
                   child: ListTile(
                     leading: Container(
