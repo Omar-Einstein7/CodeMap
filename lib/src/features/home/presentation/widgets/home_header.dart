@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class HomeHeader extends StatelessWidget {
   final String username;
@@ -36,14 +37,15 @@ class HomeHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: isLight ? Colors.white : const Color(0xFF333333),
+              color: isLight
+                  ? AppColors.glassLight
+                  : AppColors.glassDark,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                ),
-              ],
+              border: Border.all(
+                color: isLight
+                    ? AppColors.glassBorderLight
+                    : AppColors.glassBorderDark,
+              ),
             ),
             child: Icon(Icons.notifications, color: theme.primaryColor),
           ),
