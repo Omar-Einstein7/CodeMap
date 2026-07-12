@@ -1,4 +1,5 @@
 import '../../domain/repositories/progress_repository.dart';
+import '../../domain/entities/course_progress.dart';
 
 class LocalProgressRepository implements ProgressRepository {
   // Simulating local storage (e.g., SharedPreferences or Hive)
