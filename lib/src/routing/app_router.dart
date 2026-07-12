@@ -1,5 +1,6 @@
 
 import 'package:codemap2/src/imports/core_imports.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:codemap2/src/features/auth/presentation/pages/forget_password_screen.dart';
 import 'package:codemap2/src/features/auth/presentation/pages/login_screen.dart';
@@ -28,30 +29,30 @@ class AppRouter {
   static GoRouter get router => _router;
 
   static final GoRouter _router = GoRouter(
-    initialLocation: '/splash',
+    initialLocation: AppRoutes.splash,
     navigatorKey: _rootNavigatorKey,
     errorBuilder: (context, state) =>
         Scaffold(body: Center(child: Text('Page not found: ${state.uri}'))),
     routes: [
       GoRoute(
-        path: '/splash',
+        path: AppRoutes.splash,
         builder: (context, state) => const SplashScreen(),
       ),
-      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(path: AppRoutes.login, builder: (context, state) => const LoginScreen()),
       GoRoute(
-        path: '/signup',
+        path: AppRoutes.signup,
         builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
-        path: '/forget-password',
+        path: AppRoutes.forgotPassword,
         builder: (context, state) => const ForgetPasswordScreen(),
       ),
       GoRoute(
-        path: '/verify-code',
+        path: AppRoutes.verifyCode,
         builder: (context, state) => const VerifyCodeScreen(),
       ),
       GoRoute(
-        path: '/new-password',
+        path: AppRoutes.newPassword,
         builder: (context, state) => const NewPasswordScreen(),
       ),
       // ShellRoute for authenticated users with bottom navigation
@@ -60,7 +61,7 @@ class AppRouter {
         builder: (context, state, child) => NavigationShell(child: child),
         routes: [
           GoRoute(
-            path: '/home',
+            path: AppRoutes.home,
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: HomeScreen()),
             routes: [
@@ -71,12 +72,12 @@ class AppRouter {
             ],
           ),
           GoRoute(
-            path: '/favourites',
+            path: AppRoutes.favourites,
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: FavouriteScreen()),
           ),
           GoRoute(
-            path: '/courses',
+            path: AppRoutes.courses,
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: CategoryListScreen()),
             routes: [
@@ -107,7 +108,7 @@ class AppRouter {
                     course: Course(
                       id: courseId,
                       name: 'Loading...',
-                      imageUrl: '',
+                      imageUrl: 'images2/img.png',
                       category: CourseCategory.ai,
                     ),
                   );
@@ -127,7 +128,7 @@ class AppRouter {
                         course: Course(
                           id: courseId,
                           name: 'Loading...',
-                          imageUrl: '',
+                          imageUrl: 'images2/img.png',
                           category: CourseCategory.ai,
                         ),
                       );
@@ -138,7 +139,7 @@ class AppRouter {
             ],
           ),
           GoRoute(
-            path: '/profile',
+            path: AppRoutes.profile,
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: ProfileScreen()),
             routes: [
@@ -152,31 +153,31 @@ class AppRouter {
       ),
     ],
     redirect: (context, state) {
-      final sessionState = sl<SessionCubit>().state; // Get current state
+      final sessionState = context.read<SessionCubit>().state; // Get current state
       final bool isAuthenticated = sessionState is SessionAuthenticated;
       final bool isUnauthenticated = sessionState is SessionUnauthenticated;
 
       final bool isGoingToAuth =
-          state.matchedLocation == '/login' ||
-          state.matchedLocation == '/signup' ||
-          state.matchedLocation == '/forget-password' ||
-          state.matchedLocation == '/verify-code' ||
-          state.matchedLocation == '/new-password';
-      final bool isGoingToSplash = state.matchedLocation == '/splash';
+          state.matchedLocation == AppRoutes.login ||
+          state.matchedLocation == AppRoutes.signup ||
+          state.matchedLocation == AppRoutes.forgotPassword ||
+          state.matchedLocation == AppRoutes.verifyCode ||
+          state.matchedLocation == AppRoutes.newPassword;
+      final bool isGoingToSplash = state.matchedLocation == AppRoutes.splash;
 
       // If the session is still initializing, stay on splash
       if (sessionState is SessionInitial || sessionState is SessionLoading) {
-        return isGoingToSplash ? null : '/splash';
+        return isGoingToSplash ? null : AppRoutes.splash;
       }
 
       // If unauthenticated, but trying to go to a protected route, redirect to login
       if (isUnauthenticated && !isGoingToAuth && !isGoingToSplash) {
-        return '/login';
+        return AppRoutes.login;
       }
 
       // If authenticated, but trying to go to login/signup/splash, redirect to home
       if (isAuthenticated && (isGoingToAuth || isGoingToSplash)) {
-        return '/home';
+        return AppRoutes.home;
       }
 
       // No redirect needed
