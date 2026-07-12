@@ -1,8 +1,10 @@
+import 'dart:ui';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/theme/theme_cubit.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class NavigationShell extends StatelessWidget {
   final Widget child;
@@ -34,9 +36,38 @@ class NavigationShell extends StatelessWidget {
 
     return BlocBuilder<ThemeCubit, bool>(
       builder: (context, isLightTheme) {
+        final glassColor = isLightTheme
+            ? AppColors.glassLight
+            : AppColors.glassDark;
         return Scaffold(
-          backgroundColor: theme.scaffoldBackgroundColor,
-          body: child,
+          backgroundColor: isLightTheme ? AppColors.bgLight : AppColors.bgDark,
+          body: Stack(
+            children: [
+              // Gradient background for glass to blur
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: glassBackgroundGradient(isLightTheme),
+                  ),
+                ),
+              ),
+              // Subtle backdrop blur overlay for frosted glass effect
+              Positioned.fill(
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                    child: Container(
+                      color: isLightTheme
+                          ? Colors.white.withOpacity(0.15)
+                          : Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
+              // Actual content
+              child,
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => context.read<ThemeCubit>().toggleTheme(),
             backgroundColor: theme.primaryColor,
@@ -59,9 +90,11 @@ class NavigationShell extends StatelessWidget {
             notchSmoothness: NotchSmoothness.softEdge,
             leftCornerRadius: 32,
             rightCornerRadius: 32,
-            backgroundColor: theme.primaryColor,
-            activeColor: Colors.white,
-            inactiveColor: Colors.white54,
+            backgroundColor: glassColor,
+            activeColor: theme.primaryColor,
+            inactiveColor: isLightTheme ? Colors.black38 : Colors.white38,
+            blurEffect: true,
+            elevation: 0,
             onTap: (index) {
               context.go(tabPaths[index]);
             },
