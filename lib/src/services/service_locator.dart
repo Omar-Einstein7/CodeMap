@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:codemap2/src/services/dio_client.dart';
 
 import 'package:codemap2/src/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:codemap2/src/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -68,6 +69,7 @@ Future<void> init() async {
   // Core
   sl.registerLazySingleton(() => SecureTokenStorage());
   sl.registerLazySingleton(() => SessionCubit(sl()));
+  sl.registerLazySingleton(() => DioClient());
 
   // Global / DI - Theming & Splash
   sl.registerFactory(() => ThemeCubit());
