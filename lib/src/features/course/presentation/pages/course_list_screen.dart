@@ -6,6 +6,7 @@ import '../../domain/entities/course.dart';
 import '../cubit/course_cubit.dart';
 import '../cubit/course_state.dart';
 import '../widgets/course_card.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class CourseListScreen extends StatelessWidget {
   final CourseCategory category;
@@ -14,10 +15,13 @@ class CourseListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return BlocProvider(
       create: (context) => sl<CourseCubit>()..loadCourses(category),
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -26,9 +30,7 @@ class CourseListScreen extends StatelessWidget {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+              color: isDark ? Colors.white : Colors.black,
             ),
             onPressed: () => context.pop(),
           ),
@@ -43,9 +45,14 @@ class CourseListScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black.withOpacity(0.05)
-                        : Colors.white.withOpacity(0.05),
+                    color: isDark
+                        ? AppColors.glassDark
+                        : AppColors.glassLight,
+                    border: Border.all(
+                      color: isDark
+                          ? AppColors.glassBorderDark
+                          : AppColors.glassBorderLight,
+                    ),
                   ),
                   child: TextField(
                     onChanged: (value) {
@@ -61,15 +68,11 @@ class CourseListScreen extends StatelessWidget {
                       ),
                       prefixIcon: Icon(
                         Icons.search,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black54
-                            : Colors.white54,
+                        color: isDark ? Colors.white54 : Colors.black54,
                       ),
                       hintText: "Search courses",
                       hintStyle: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black54
-                            : Colors.white54,
+                        color: isDark ? Colors.white54 : Colors.black54,
                       ),
                     ),
                   ),
