@@ -1,6 +1,7 @@
 import 'package:codemap2/src/utils/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codemap2/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:codemap2/src/features/auth/domain/entities/user.dart';
 
 import 'session_state.dart';
 
@@ -27,7 +28,7 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   /// Sets the session when a user logs in or signs up.
-  void setSession(dynamic user) {
+  void setSession(User user) {
     emit(SessionAuthenticated(user: user));
   }
 
