@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
+import '../widgets/auth_button.dart';
 
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
@@ -225,63 +226,21 @@ class _SignupScreenState extends State<SignupScreen> {
                                 const SizedBox(height: 32),
                                 BlocBuilder<AuthCubit, AuthState>(
                                   builder: (context, state) {
-                                    return SizedBox(
+                                    return AuthButton(
                                       width: double.infinity,
-                                      height: 56,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(
-                                            context,
-                                          ).primaryColor,
-                                          foregroundColor: Colors.white,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              16,
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: state is AuthLoading
-                                            ? null
-                                            : () {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  context
-                                                      .read<AuthCubit>()
-                                                      .signup(
-                                                        firstName:
-                                                            _firstNameController
-                                                                .text,
-                                                        lastName:
-                                                            _lastNameController
-                                                                .text,
-                                                        email: _emailController
-                                                            .text,
-                                                        password:
-                                                            _passwordController
-                                                                .text,
-                                                      );
-                                                }
-                                              },
-                                        child: state is AuthLoading
-                                            ? const SizedBox(
-                                                height: 24,
-                                                width: 24,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                      strokeWidth: 2,
-                                                      color: Colors.white,
-                                                    ),
-                                              )
-                                            : const Text(
-                                                "SIGN UP",
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 1.1,
-                                                ),
-                                              ),
-                                      ),
+                                      text: "SIGN UP",
+                                      isLoading: state is AuthLoading,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          context.read<AuthCubit>().signup(
+                                                firstName: _firstNameController.text,
+                                                lastName: _lastNameController.text,
+                                                email: _emailController.text,
+                                                password: _passwordController.text,
+                                              );
+                                        }
+                                      },
                                     );
                                   },
                                 ),
