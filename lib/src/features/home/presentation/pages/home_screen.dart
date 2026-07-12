@@ -19,6 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isLightTheme = theme.brightness == Brightness.light;
+    final glassBorder = isLightTheme
+        ? AppColors.glassBorderLight
+        : AppColors.glassBorderDark;
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -69,15 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: isLightTheme
-                                  ? Colors.white
-                                  : const Color(0xFF333333),
+                                  ? Colors.white.withOpacity(0.7)
+                                  : Colors.white.withOpacity(0.08),
                               borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 10,
-                                ),
-                              ],
+                              border: Border.all(color: glassBorder),
                             ),
                             child: Icon(
                               BoxIcons.bx_bell,
@@ -102,9 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: isLightTheme
-                              ? Colors.black.withOpacity(0.05)
-                              : Colors.white.withOpacity(0.05),
+                              ? Colors.white.withOpacity(0.7)
+                              : Colors.white.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: glassBorder),
                         ),
                         child: Row(
                           children: [
@@ -243,9 +242,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: isSelected
                                     ? theme.primaryColor
                                     : (isLightTheme
-                                          ? Colors.white
-                                          : const Color(0xFF333333)),
+                                          ? Colors.white.withOpacity(0.7)
+                                          : Colors.white.withOpacity(0.08)),
                                 borderRadius: BorderRadius.circular(15),
+                                border: isSelected
+                                    ? null
+                                    : Border.all(color: glassBorder),
                                 boxShadow: isSelected
                                     ? [
                                         BoxShadow(
@@ -293,6 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
+                    // Featured Courses - Glass cards
                     SizedBox(
                       height: height * 0.32,
                       child: ListView.builder(
@@ -315,13 +318,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: isLightTheme
-                                    ? Colors.white
-                                    : const Color(0xFF333333),
+                                    ? Colors.white.withOpacity(0.7)
+                                    : Colors.white.withOpacity(0.08),
                                 borderRadius: BorderRadius.circular(25),
+                                border: Border.all(color: glassBorder),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.08),
-                                    blurRadius: 15,
+                                    color: Colors.black.withOpacity(
+                                      isLightTheme ? 0.06 : 0.3,
+                                    ),
+                                    blurRadius: 20,
                                     offset: const Offset(0, 8),
                                   ),
                                 ],
@@ -336,8 +342,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                         color: isLightTheme
-                                            ? Colors.grey[50]
-                                            : const Color(0xFF3D3D3D),
+                                            ? Colors.white.withOpacity(0.5)
+                                            : Colors.white.withOpacity(0.04),
                                         borderRadius:
                                             const BorderRadius.vertical(
                                           top: Radius.circular(25),
@@ -363,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontWeight: FontWeight.w700,
                                           letterSpacing: 0.5,
                                           color: isLightTheme
-                                              ? Colors.black
+                                              ? Colors.black87
                                               : Colors.white,
                                         ),
                                         maxLines: 1,
@@ -378,6 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
+
                     // Recent Section Header
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
@@ -406,7 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    // Modernized Recent List
+                    // Recent Courses List - Glass cards
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -429,14 +436,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: isLightTheme
-                                  ? Colors.white
-                                  : const Color(0xFF333333),
+                                  ? Colors.white.withOpacity(0.7)
+                                  : Colors.white.withOpacity(0.08),
                               borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: glassBorder),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.04),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
+                                  color: Colors.black.withOpacity(
+                                    isLightTheme ? 0.04 : 0.3,
+                                  ),
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 6),
                                 ),
                               ],
                             ),
@@ -448,8 +458,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     color: isLightTheme
-                                        ? Colors.grey[50]
-                                        : const Color(0xFF3D3D3D),
+                                        ? Colors.white.withOpacity(0.5)
+                                        : Colors.white.withOpacity(0.04),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Image.asset(
@@ -469,7 +479,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: isLightTheme
-                                              ? Colors.black
+                                              ? Colors.black87
                                               : Colors.white,
                                         ),
                                       ),
