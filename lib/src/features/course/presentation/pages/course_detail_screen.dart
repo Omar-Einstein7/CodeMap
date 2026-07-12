@@ -8,7 +8,6 @@ import '../cubit/course_detail_cubit.dart';
 import '../cubit/course_detail_state.dart';
 import '../cubit/lesson_progress_cubit.dart';
 import '../cubit/lesson_progress_state.dart';
-import 'course_content_screen.dart';
 
 class CourseDetailScreen extends StatelessWidget {
   final Course course;
