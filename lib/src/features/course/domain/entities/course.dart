@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'section.dart';
 
 enum CourseCategory {
@@ -23,7 +24,7 @@ enum CourseCategory {
   }
 }
 
-class Course {
+class Course extends Equatable {
   final String id;
   final String name;
   final String imageUrl;
@@ -51,4 +52,7 @@ class Course {
   int get totalLessons {
     return sections.fold(0, (prev, curr) => prev + curr.lessonCount);
   }
+
+  @override
+  List<Object?> get props => [id, name, imageUrl, category, description, sections, isPremium];
 }
