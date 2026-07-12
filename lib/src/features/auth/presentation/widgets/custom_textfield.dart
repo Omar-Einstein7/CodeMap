@@ -30,7 +30,7 @@ class CustomTextfield extends StatelessWidget {
         style: const TextStyle(color: Colors.white, fontSize: 16),
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.black.withOpacity(0.4),
+          fillColor: Colors.white.withOpacity(0.08),
           contentPadding: const EdgeInsets.symmetric(
             vertical: 18,
             horizontal: 20,
@@ -50,7 +50,7 @@ class CustomTextfield extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+            borderSide: BorderSide(color: Colors.white.withOpacity(0.12)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
