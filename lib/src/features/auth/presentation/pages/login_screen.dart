@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart'; // Import go_router
+import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
-import '../widgets/auth_button.dart';
+
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/custom_textfield.dart';
@@ -55,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         child: Scaffold(
-          // Allow keyboard to push content up so fields are visible
           resizeToAvoidBottomInset: true,
           body: Stack(
             children: [
@@ -101,7 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.15),
+                                color: Colors.white.withOpacity(0.1),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.15),
+                                ),
                               ),
                               child: const Icon(
                                 Icons.code_rounded,
@@ -109,7 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.white,
                               ),
                             ),
-                            // Replaced inline header with extracted widgets
                             const SizedBox(height: 8),
                             const AuthTitle(
                               title: "Welcome Back",
@@ -192,10 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             context,
                                           ).primaryColor,
                                           foregroundColor: Colors.white,
-                                          elevation: 8,
-                                          shadowColor: Theme.of(
-                                            context,
-                                          ).primaryColor.withOpacity(0.4),
+                                          elevation: 0,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -245,10 +243,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         style: OutlinedButton.styleFrom(
                                           side: BorderSide(
                                             color: Colors.white.withOpacity(
-                                              0.3,
+                                              0.2,
                                             ),
                                           ),
                                           foregroundColor: Colors.white,
+                                          backgroundColor:
+                                              Colors.white.withOpacity(0.06),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -256,7 +256,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ),
                                         ),
                                         onPressed: () {
-                                          // Log in as guest by navigating to Main
                                           context.go('/home');
                                         },
                                         child: const Text(
