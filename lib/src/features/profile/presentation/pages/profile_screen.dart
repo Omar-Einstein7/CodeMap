@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:codemap2/src/services/service_locator.dart';
 import 'package:codemap2/src/services/session_cubit.dart';
 import 'package:codemap2/src/services/session_state.dart';
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_state.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/shared/widgets/widgets.dart';
 import '../widgets/profile_widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,42 +13,45 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, sessionState) {
         return Scaffold(
-          backgroundColor: theme.scaffoldBackgroundColor,
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: theme.primaryColor,
-                    ),
-                    height: 50,
-                    child: const Center(
-                      child: Text(
-                        "P R O F I L E",
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+          backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
+          body: GlassBackground(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: theme.primaryColor,
+                      ),
+                      height: 50,
+                      child: const Center(
+                        child: Text(
+                          "P R O F I L E",
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
+                  const SizedBox(height: 30),
                 if (sessionState is SessionAuthenticated) ...[
-                  _buildAuthenticatedProfile(context, theme, sessionState),
+                  _buildAuthenticatedProfile(context, theme, isDark, sessionState),
                 ] else ...[
                   _buildGuestProfile(context, theme),
                 ],
               ],
+              ),
             ),
           ),
         );
@@ -60,6 +62,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildAuthenticatedProfile(
     BuildContext context,
     ThemeData theme,
+    bool isDark,
     SessionAuthenticated state,
   ) {
     final user = state.user;
@@ -70,7 +73,12 @@ class ProfileScreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: theme.primaryColor, width: 5),
+                border: Border.all(
+                  color: isDark
+                      ? Colors.white.withOpacity(0.15)
+                      : theme.primaryColor.withOpacity(0.4),
+                  width: 4,
+                ),
               ),
               child: CircleAvatar(
                 radius: 60,
@@ -87,9 +95,11 @@ class ProfileScreen extends StatelessWidget {
               right: 0,
               child: Container(
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
+                  color: isDark
+                      ? Colors.white.withOpacity(0.9)
+                      : Colors.white,
                 ),
                 child: Icon(Icons.edit, color: theme.primaryColor, size: 20),
               ),
@@ -141,7 +151,6 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.redAccent,
                 onTap: () {
                   context.read<SessionCubit>().clearSession();
-                  // In a real app, you might also call authCubit.logout()
                 },
               ),
             ],
