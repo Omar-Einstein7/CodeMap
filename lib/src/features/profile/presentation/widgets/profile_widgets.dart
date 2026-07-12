@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class ProfileMenuItem extends StatelessWidget {
   final IconData icon;
@@ -19,6 +20,7 @@ class ProfileMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -26,31 +28,38 @@ class ProfileMenuItem extends StatelessWidget {
         height: 60,
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
         decoration: BoxDecoration(
-          color: color ?? theme.primaryColor,
+          color: isDark ? AppColors.glassDark : AppColors.glassLight,
           borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              blurRadius: 15,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           children: [
-            Icon(icon, size: 25, color: Colors.white),
+            Icon(icon, size: 25, color: color ?? theme.primaryColor),
             const SizedBox(width: 20),
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: isDark ? Colors.white : const Color(0xFF0F172A),
                 fontSize: 17,
               ),
             ),
             const Spacer(),
             if (showArrow)
-              const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.white70),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+                color: isDark ? Colors.white38 : const Color(0xFF94A3B8),
+              ),
           ],
         ),
       ),
