@@ -82,7 +82,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.15),
+                                color: Colors.white.withOpacity(0.1),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.15),
+                                ),
                               ),
                               child: const Icon(
                                 Icons.password_rounded,
@@ -166,17 +169,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     context,
                                   ).primaryColor,
                                   foregroundColor: Colors.white,
-                                  elevation: 8,
-                                  shadowColor: Theme.of(
-                                    context,
-                                  ).primaryColor.withOpacity(0.4),
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    // Handle password reset success
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
