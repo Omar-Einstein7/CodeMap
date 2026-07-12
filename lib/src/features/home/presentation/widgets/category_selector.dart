@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class CategorySelector extends StatelessWidget {
   final List<String> categories;
@@ -32,8 +33,17 @@ class CategorySelector extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? theme.primaryColor
-                    : (isLight ? Colors.white : const Color(0xFF333333)),
+                    : (isLight
+                        ? AppColors.glassLight
+                        : AppColors.glassDark),
                 borderRadius: BorderRadius.circular(15),
+                border: isSelected
+                    ? null
+                    : Border.all(
+                        color: isLight
+                            ? AppColors.glassBorderLight
+                            : AppColors.glassBorderDark,
+                      ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
