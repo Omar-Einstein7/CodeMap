@@ -78,7 +78,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.15),
+                                color: Colors.white.withOpacity(0.1),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.15),
+                                ),
                               ),
                               child: const Icon(
                                 Icons.lock_reset_rounded,
@@ -131,10 +134,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                     context,
                                   ).primaryColor,
                                   foregroundColor: Colors.white,
-                                  elevation: 8,
-                                  shadowColor: Theme.of(
-                                    context,
-                                  ).primaryColor.withOpacity(0.4),
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
