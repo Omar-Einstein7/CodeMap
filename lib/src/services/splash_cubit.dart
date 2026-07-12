@@ -11,7 +11,11 @@ class SplashCubit extends Cubit<SplashState> {
 
   Future<void> _init() async {
     final sessionCubit = di.sl<SessionCubit>();
-    await sessionCubit.initializeSession();
+    if (sessionCubit.state is SessionInitial) {
+      await sessionCubit.initializeSession();
+    } else if (sessionCubit.state is SessionLoading) {
+      await sessionCubit.stream.firstWhere((state) => state is! SessionLoading && state is! SessionInitial);
+    }
     if (sessionCubit.state is SessionAuthenticated) {
       emit(SplashAuthenticated());
     } else {
