@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/session_cubit.dart';
 import 'package:codemap2/src/services/session_state.dart';
-import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/shared/widgets/widgets.dart';
 import '../widgets/profile_widgets.dart';
 
@@ -23,34 +23,30 @@ class ProfileScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: theme.primaryColor,
-                      ),
-                      height: 50,
-                      child: const Center(
-                        child: Text(
-                          "P R O F I L E",
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                  const SizedBox(height: 24),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Text(
+                      "P R O F I L E",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                if (sessionState is SessionAuthenticated) ...[
-                  _buildAuthenticatedProfile(context, theme, isDark, sessionState),
-                ] else ...[
-                  _buildGuestProfile(context, theme),
+                  if (sessionState is SessionAuthenticated) ...[
+                    _buildAuthenticatedProfile(context, theme, isDark, sessionState),
+                  ] else ...[
+                    _buildGuestProfile(context, theme),
+                  ],
                 ],
-              ],
               ),
             ),
           ),
@@ -75,9 +71,9 @@ class ProfileScreen extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: isDark
-                      ? Colors.white.withOpacity(0.15)
-                      : theme.primaryColor.withOpacity(0.4),
-                  width: 4,
+                      ? Colors.white.withValues(alpha: 0.15)
+                      : theme.colorScheme.primary.withValues(alpha: 0.3),
+                  width: 3,
                 ),
               ),
               child: CircleAvatar(
@@ -97,11 +93,13 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isDark
-                      ? Colors.white.withOpacity(0.9)
-                      : Colors.white,
+                  color: theme.colorScheme.primary,
+                  border: Border.all(
+                    color: isDark ? AppColors.surfaceDark : Colors.white,
+                    width: 2,
+                  ),
                 ),
-                child: Icon(Icons.edit, color: theme.primaryColor, size: 20),
+                child: const Icon(Icons.edit, color: Colors.white, size: 18),
               ),
             ),
           ],
@@ -112,14 +110,14 @@ class ProfileScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: theme.textTheme.bodyLarge?.color,
+            color: theme.textPrimaryColor,
           ),
         ),
         Text(
           user.email,
           style: TextStyle(
-            fontSize: 16,
-            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+            fontSize: 15,
+            color: theme.textSecondaryColor,
           ),
         ),
         const SizedBox(height: 30),
@@ -128,27 +126,27 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               ProfileMenuItem(
-                icon: Icons.settings,
+                icon: Icons.settings_outlined,
                 text: "Settings",
-                color: theme.primaryColor,
+                color: theme.colorScheme.primary,
                 onTap: () => context.push('/profile/settings'),
               ),
               ProfileMenuItem(
-                icon: Icons.history,
+                icon: Icons.history_rounded,
                 text: "My Learning",
-                color: theme.primaryColor,
+                color: theme.colorScheme.primary,
                 onTap: () {},
               ),
               ProfileMenuItem(
-                icon: Icons.payment,
+                icon: Icons.payment_rounded,
                 text: "Billing",
-                color: theme.primaryColor,
+                color: theme.colorScheme.primary,
                 onTap: () {},
               ),
               ProfileMenuItem(
-                icon: Icons.logout,
+                icon: Icons.logout_rounded,
                 text: "Logout",
-                color: Colors.redAccent,
+                color: AppColors.error,
                 onTap: () {
                   context.read<SessionCubit>().clearSession();
                 },
@@ -165,42 +163,51 @@ class ProfileScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(height: 50),
-        Icon(
-          Icons.account_circle_outlined,
-          size: 100,
-          color: theme.primaryColor.withOpacity(0.5),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: theme.glassColor,
+            border: Border.all(color: theme.glassBorder),
+          ),
+          child: Icon(
+            Icons.person_outline_rounded,
+            size: 80,
+            color: theme.textTertiaryColor,
+          ),
         ),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           "Welcome, Guest",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: theme.textPrimaryColor,
+          ),
         ),
         const SizedBox(height: 10),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Text(
             "Log in to track your progress and access premium courses.",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(
+              fontSize: 15,
+              color: theme.textSecondaryColor,
+            ),
           ),
         ),
         const SizedBox(height: 30),
         SizedBox(
           width: 200,
-          height: 50,
+          height: 52,
           child: ElevatedButton(
             onPressed: () => context.go('/login'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
             child: const Text(
               "Log In / Sign Up",
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
