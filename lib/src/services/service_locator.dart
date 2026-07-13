@@ -45,7 +45,7 @@ Future<void> init() async {
   );
 
   // Features - Home
-  sl.registerFactory(() => HomeCubit());
+  sl.registerFactory(() => HomeCubit(sl()));
 
   // Features - Course
   sl.registerFactory(() => CourseCubit(sl()));
