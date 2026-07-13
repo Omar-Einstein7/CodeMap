@@ -15,25 +15,22 @@ class HomeLoading extends HomeState {}
 class HomeLoaded extends HomeState {
   final int selectedCategoryIndex;
   final List<String> categories;
-  final List<String> featuredCourses;
-  final List<String> featuredImages;
   final List<Course> featuredCourseData;
+  final List<Course> recentCourses;
 
   const HomeLoaded({
     required this.selectedCategoryIndex,
     required this.categories,
-    required this.featuredCourses,
-    required this.featuredImages,
     required this.featuredCourseData,
+    required this.recentCourses,
   });
 
   @override
   List<Object?> get props => [
         selectedCategoryIndex,
         categories,
-        featuredCourses,
-        featuredImages,
         featuredCourseData,
+        recentCourses,
       ];
 }
 
