@@ -28,14 +28,14 @@ class ProfileMenuItem extends StatelessWidget {
         height: 60,
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.glassDark : AppColors.glassLight,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
-          ),
+          color: theme.glassColor,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: theme.glassBorder),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.black.withValues(alpha: 0.06),
               blurRadius: 15,
               offset: const Offset(0, 6),
             ),
@@ -43,22 +43,22 @@ class ProfileMenuItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, size: 25, color: color ?? theme.primaryColor),
+            Icon(icon, size: 24, color: color ?? theme.colorScheme.primary),
             const SizedBox(width: 20),
             Text(
               text,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: isDark ? Colors.white : const Color(0xFF0F172A),
+                color: theme.textPrimaryColor,
                 fontSize: 17,
               ),
             ),
             const Spacer(),
             if (showArrow)
               Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: isDark ? Colors.white38 : const Color(0xFF94A3B8),
+                Icons.chevron_right_rounded,
+                size: 22,
+                color: theme.textTertiaryColor,
               ),
           ],
         ),
