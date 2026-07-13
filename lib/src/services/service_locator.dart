@@ -7,16 +7,16 @@ import 'package:codemap2/src/features/auth/data/datasources/auth_remote_data_sou
 import 'package:codemap2/src/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:codemap2/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:codemap2/src/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:codemap2/src/features/course/data/repositories/local_course_repository.dart';
-import 'package:codemap2/src/features/course/data/repositories/local_progress_repository.dart';
+import 'package:codemap2/src/features/course/data/repositories/api_course_repository.dart';
+import 'package:codemap2/src/features/course/data/repositories/api_progress_repository.dart';
 import 'package:codemap2/src/features/course/domain/repositories/course_repository.dart';
 import 'package:codemap2/src/features/course/domain/repositories/progress_repository.dart';
-import 'package:codemap2/src/features/favourite/data/repositories/local_favourite_repository.dart';
+import 'package:codemap2/src/features/favourite/data/repositories/api_favourite_repository.dart';
 import 'package:codemap2/src/features/favourite/domain/repositories/favourite_repository.dart';
 import 'package:codemap2/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:codemap2/src/theme/theme_cubit.dart';
 import 'package:codemap2/src/services/splash_cubit.dart';
-import 'package:codemap2/src/features/profile/data/repositories/local_user_profile_repository.dart';
+import 'package:codemap2/src/features/profile/data/repositories/api_user_profile_repository.dart';
 import 'package:codemap2/src/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:codemap2/src/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:codemap2/src/features/favourite/presentation/cubit/favourite_cubit.dart';
@@ -35,7 +35,7 @@ Future<void> init() async {
     () => AuthRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => MockAuthRemoteDataSource(),
+    () => ApiAuthRemoteDataSource(sl()),
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(
@@ -51,19 +51,19 @@ Future<void> init() async {
   sl.registerFactory(() => CourseCubit(sl()));
   sl.registerFactory(() => CourseDetailCubit(sl()));
   sl.registerFactory(() => LessonProgressCubit(sl()));
-  sl.registerLazySingleton<CourseRepository>(() => LocalCourseRepository());
-  sl.registerLazySingleton<ProgressRepository>(() => LocalProgressRepository());
+  sl.registerLazySingleton<CourseRepository>(() => ApiCourseRepository(sl()));
+  sl.registerLazySingleton<ProgressRepository>(() => ApiProgressRepository(sl()));
 
   // Features - Profile
   sl.registerFactory(() => ProfileCubit(sl()));
   sl.registerLazySingleton<UserProfileRepository>(
-    () => LocalUserProfileRepository(),
+    () => ApiUserProfileRepository(dioClient: sl(), authLocalDataSource: sl()),
   );
 
   // Features - Favourite
   sl.registerFactory(() => FavouriteCubit(sl()));
   sl.registerLazySingleton<FavouriteRepository>(
-    () => LocalFavouriteRepository(),
+    () => ApiFavouriteRepository(dioClient: sl(), authLocalDataSource: sl()),
   );
 
   // Core

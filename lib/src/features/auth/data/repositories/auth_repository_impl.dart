@@ -20,12 +20,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final userModel = await remoteDataSource.login(email, password);
-      // In a real app, the remote data source would return a token that we cache here
-      // For now, mocking token caching
-      await localDataSource.cacheToken('mock_token');
-      await localDataSource.cacheUser(userModel);
-      return Success(userModel);
+      final authResponse = await remoteDataSource.login(email, password);
+      await localDataSource.cacheToken(authResponse.token);
+      await localDataSource.cacheUser(authResponse.user);
+      return Success(authResponse.user);
     } catch (e) {
       return Error(AuthFailure(e.toString()));
     }
@@ -39,16 +37,15 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final userModel = await remoteDataSource.signup(
+      final authResponse = await remoteDataSource.signup(
         firstName,
         lastName,
         email,
         password,
       );
-      // Similar to login, cache user after signup
-      await localDataSource.cacheToken('mock_token');
-      await localDataSource.cacheUser(userModel);
-      return Success(userModel);
+      await localDataSource.cacheToken(authResponse.token);
+      await localDataSource.cacheUser(authResponse.user);
+      return Success(authResponse.user);
     } catch (e) {
       return Error(AuthFailure(e.toString()));
     }

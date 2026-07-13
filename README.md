@@ -81,6 +81,16 @@ flutter pub get
 flutter run
 ```
 
+### Run On Web
+
+The backend currently allows CORS from `http://localhost:3000`, so run Flutter Web on that port:
+
+```bash
+flutter run -d chrome --web-hostname localhost --web-port 3000
+```
+
+If you use another web port, update the backend CORS allowlist to include that origin.
+
 ### Build
 
 ```bash
