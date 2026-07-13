@@ -54,7 +54,7 @@ class NavigationShell extends StatelessWidget {
         onPressed: () => context.read<ThemeCubit>().toggleTheme(),
         backgroundColor: theme.colorScheme.primary,
         child: Icon(
-          isLight ? Icons.brightness_3 : Icons.sunny,
+          isLight ? Icons.dark_mode_rounded : Icons.sunny,
           color: Colors.white,
         ),
       ),
@@ -97,7 +97,7 @@ class _LiquidNavBar extends StatefulWidget {
 class _LiquidNavBarState extends State<_LiquidNavBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
-  late Animation<double>   _slideAnim; // animated fractional index position
+  late Animation<double>   _slideAnim;
 
   @override
   void initState() {
@@ -130,24 +130,16 @@ class _LiquidNavBarState extends State<_LiquidNavBar>
     super.dispose();
   }
 
-  // ── Settings tuned to match the reference image ──────────────────────────
-
   LiquidGlassSettings get _glassSettings => LiquidGlassSettings(
-    // Moderate refraction — clear but glass-like
     thickness:          22,
-    // Frosted blur matching the reference
     blur:               14,
-    // Semi-transparent dark tint (reference is darkish translucent)
     glassColor:         widget.isLight
-        ? const Color(0x20FFFFFF)
+        ? const Color(0x28000000)  // subtle dark tint → white icons pop
         : const Color(0x35000000),
-    // Bright specular rim from top-left
     lightIntensity:     1.8,
-    lightAngle:         2.4, // ~top-left
+    lightAngle:         2.4,
     ambientStrength:    0.15,
-    // Slight colour boost through glass
     saturation:         1.2,
-    // Subtle chromatic fringing
     chromaticAberration: 0.008,
   );
 
@@ -166,18 +158,13 @@ class _LiquidNavBarState extends State<_LiquidNavBar>
             final blobW  = cellW - 10;
             const blobH  = 62.0;
 
-            // One LiquidGlassLayer covers the whole bar.
-            // Inside it, a LiquidGlassBlendGroup holds BOTH the tray pill AND
-            // the active blob so they physically blend/merge at their edges —
-            // exactly the liquid morphing seen in the reference.
             return LiquidGlassLayer(
               settings: _glassSettings,
               child: LiquidGlassBlendGroup(
-                blend: 26, // how many px the shapes merge into each other
+                blend: 26,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // ── 1. Outer frosted tray ──────────────────────────────
                     const Positioned.fill(
                       child: LiquidGlass.grouped(
                         shape: LiquidRoundedSuperellipse(borderRadius: 28),
@@ -185,7 +172,6 @@ class _LiquidNavBarState extends State<_LiquidNavBar>
                       ),
                     ),
 
-                    // ── 2. Active blob — slides between tabs ───────────────
                     AnimatedBuilder(
                       animation: _slideAnim,
                       builder: (_, __) {
@@ -196,8 +182,6 @@ class _LiquidNavBarState extends State<_LiquidNavBar>
                           top:  (80 - blobH) / 2,
                           child: LiquidGlass.grouped(
                             shape: const LiquidRoundedSuperellipse(borderRadius: 20),
-                            // glassContainsChild: true → gradient is tinted by
-                            // the glass, giving the iridescent blob effect
                             glassContainsChild: true,
                             child: Container(
                               width:  blobW,
@@ -220,7 +204,6 @@ class _LiquidNavBarState extends State<_LiquidNavBar>
                       },
                     ),
 
-                    // ── 3. Icons + labels row (rendered above glass) ───────
                     Row(
                       children: List.generate(count, (i) {
                         final isActive = i == widget.activeIndex;
@@ -307,7 +290,7 @@ class _NavTabState extends State<_NavTab>
                     widget.item.icon,
                     size:  24,
                     color: Colors.white.withValues(
-                      alpha: widget.isActive ? 1.0 : 0.50,
+                      alpha: widget.isActive ? 1.0 : 0.55,
                     ),
                   ),
                 ),
@@ -319,7 +302,7 @@ class _NavTabState extends State<_NavTab>
                     fontWeight:    widget.isActive
                         ? FontWeight.w700 : FontWeight.w400,
                     color: Colors.white.withValues(
-                      alpha: widget.isActive ? 1.0 : 0.50,
+                      alpha: widget.isActive ? 1.0 : 0.55,
                     ),
                     letterSpacing: widget.isActive ? 0.2 : 0,
                   ),
