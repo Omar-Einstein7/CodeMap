@@ -8,7 +8,6 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLight = theme.brightness == Brightness.light;
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
       child: Row(
@@ -21,7 +20,7 @@ class HomeHeader extends StatelessWidget {
                 "Welcome back,",
                 style: TextStyle(
                   fontSize: 16,
-                  color: isLight ? Colors.grey[600] : Colors.grey[400],
+                  color: theme.textSecondaryColor,
                 ),
               ),
               Text(
@@ -29,7 +28,7 @@ class HomeHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: isLight ? Colors.black : Colors.white,
+                  color: theme.textPrimaryColor,
                 ),
               ),
             ],
@@ -37,17 +36,11 @@ class HomeHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: isLight
-                  ? AppColors.glassLight
-                  : AppColors.glassDark,
+              color: theme.glassColor,
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: isLight
-                    ? AppColors.glassBorderLight
-                    : AppColors.glassBorderDark,
-              ),
+              border: Border.all(color: theme.glassBorder),
             ),
-            child: Icon(Icons.notifications, color: theme.primaryColor),
+            child: Icon(Icons.notifications_outlined, color: theme.colorScheme.primary),
           ),
         ],
       ),
