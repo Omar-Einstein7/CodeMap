@@ -25,6 +25,7 @@ import 'package:codemap2/src/features/course/presentation/cubit/course_detail_cu
 import 'package:codemap2/src/features/course/presentation/cubit/lesson_progress_cubit.dart';
 import 'package:codemap2/src/services/secure_token_storage.dart';
 import 'package:codemap2/src/services/session_cubit.dart';
+import 'package:codemap2/src/services/recent_courses_service.dart';
 
 final sl = GetIt.instance;
 
@@ -45,7 +46,7 @@ Future<void> init() async {
   );
 
   // Features - Home
-  sl.registerFactory(() => HomeCubit(sl()));
+  sl.registerFactory(() => HomeCubit(sl(), sl()));
 
   // Features - Course
   sl.registerFactory(() => CourseCubit(sl()));
@@ -78,4 +79,7 @@ Future<void> init() async {
   // External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
+
+  // Services
+  sl.registerLazySingleton(() => RecentCoursesService(sl()));
 }

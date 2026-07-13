@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import 'package:codemap2/src/services/session_cubit.dart';
 import 'package:codemap2/src/services/session_state.dart';
+import 'package:codemap2/src/services/recent_courses_service.dart';
 import '../../domain/entities/course.dart';
 import '../../domain/entities/section.dart';
 import '../../domain/entities/lesson.dart';
@@ -26,6 +27,7 @@ class CourseDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = userId(context);
+    sl<RecentCoursesService>().addCourse(course);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
