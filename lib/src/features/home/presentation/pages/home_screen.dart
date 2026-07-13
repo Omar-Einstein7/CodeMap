@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
@@ -10,6 +11,7 @@ import '../widgets/home_banner.dart';
 import '../widgets/category_selector.dart';
 import '../widgets/featured_courses_list.dart';
 import '../widgets/recent_courses_list.dart';
+import '../widgets/home_skeleton.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,32 +19,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLightTheme = theme.brightness == Brightness.light;
 
     return BlocProvider(
       create: (context) => sl<HomeCubit>()..loadHomeData(),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const HomeScreenSkeleton();
           } else if (state is HomeLoaded) {
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Custom Header
                     const HomeHeader(username: 'Omar Ahmed'),
 
-                    // Modern Search Bar
                     HomeSearchBar(
                       onTap: () => context.push('/home/search'),
                     ),
 
-                    // Modernized Banner
                     const HomeBanner(),
 
-                    // Categories Selector
                     CategorySelector(
                       categories: state.categories,
                       selectedIndex: state.selectedCategoryIndex,
@@ -50,7 +47,6 @@ class HomeScreen extends StatelessWidget {
                           context.read<HomeCubit>().selectCategory(index),
                     ),
 
-                    // Featured Courses Header
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
                       child: Text(
@@ -58,12 +54,11 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: isLightTheme ? Colors.black : Colors.white,
+                          color: theme.textPrimaryColor,
                         ),
                       ),
                     ),
 
-                    // Featured Courses - Glass cards
                     FeaturedCoursesList(
                       courses: state.featuredCourseData,
                       onCourseTap: (course) => context.push(
@@ -72,7 +67,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // Recent Section Header
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
                       child: Row(
@@ -83,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: isLightTheme ? Colors.black : Colors.white,
+                              color: theme.textPrimaryColor,
                             ),
                           ),
                           Text(
@@ -91,16 +85,15 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: theme.primaryColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    // Recent Courses List - Glass cards
                     RecentCoursesList(
-                      courses: state.featuredCourseData,
+                      courses: state.recentCourses,
                       onCourseTap: (course) => context.push(
                         '/courses/course-detail/${course.id}',
                         extra: course,
