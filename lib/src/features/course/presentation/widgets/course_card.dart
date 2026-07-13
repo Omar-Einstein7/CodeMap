@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../domain/entities/course.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import '../../domain/entities/course.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
@@ -12,10 +12,6 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final glassColor = isDark ? AppColors.glassDark : AppColors.glassLight;
-    final glassBorder = isDark
-        ? AppColors.glassBorderDark
-        : AppColors.glassBorderLight;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
@@ -25,12 +21,14 @@ class CourseCard extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: glassColor,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: glassBorder),
+            color: theme.glassColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: theme.glassBorder),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.3)
+                    : Colors.black.withValues(alpha: 0.06),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -66,9 +64,9 @@ class CourseCard extends StatelessWidget {
                       Text(
                         course.name,
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : const Color(0xFF0F172A),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          color: theme.textPrimaryColor,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -76,18 +74,16 @@ class CourseCard extends StatelessWidget {
                         course.category.displayName,
                         style: TextStyle(
                           fontSize: 14,
-                          color: isDark
-                              ? Colors.white.withOpacity(0.8)
-                              : const Color(0xFF475569),
+                          color: theme.textSecondaryColor,
                         ),
                       ),
                     ],
                   ),
                 ),
                 Icon(
-                  Icons.arrow_forward_ios,
-                  color: isDark ? Colors.white70 : const Color(0xFF94A3B8),
-                  size: 18,
+                  Icons.chevron_right_rounded,
+                  color: theme.textTertiaryColor,
+                  size: 22,
                 ),
               ],
             ),
