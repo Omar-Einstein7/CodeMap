@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
@@ -38,10 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Login Successful"),
-                backgroundColor: Colors.green,
+              SnackBar(
+                content: const Text("Login Successful"),
+                backgroundColor: AppColors.success,
                 behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             );
             context.go('/home');
@@ -49,8 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
                 behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             );
           }
@@ -59,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidBottomInset: true,
           body: Stack(
             children: [
-              // Background Image with Overlay
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -76,15 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.3),
-                          Colors.black.withOpacity(0.7),
+                          Colors.black.withValues(alpha: 0.2),
+                          Colors.black.withValues(alpha: 0.8),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              // Content
               SafeArea(
                 child: Center(
                   child: SingleChildScrollView(
@@ -96,19 +101,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(height: 20),
-                            // Logo or App Icon
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.15),
+                                  color: Colors.white.withValues(alpha: 0.15),
                                 ),
                               ),
                               child: const Icon(
                                 Icons.code_rounded,
-                                size: 60,
+                                size: 56,
                                 color: Colors.white,
                               ),
                             ),
@@ -143,12 +147,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelText: "Password",
                               controller: _passwordController,
                               obscureText: !_isPasswordVisible,
-                              prefixIcon: const Icon(Icons.lock_outline),
+                              prefixIcon: const Icon(Icons.lock_outline_rounded),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_rounded
+                                      : Icons.visibility_off_rounded,
                                 ),
                                 onPressed: () => setState(
                                   () =>
@@ -174,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8),
+                                    color: Colors.white.withValues(alpha: 0.8),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -189,7 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       width: double.infinity,
                                       text: "LOG IN",
                                       isLoading: state is AuthLoading,
-                                      backgroundColor: Theme.of(context).primaryColor,
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           context.read<AuthCubit>().login(
@@ -200,20 +203,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                       },
                                     ),
                                     const SizedBox(height: 16),
-                                    // Login as Guest Button
                                     SizedBox(
                                       width: double.infinity,
                                       height: 56,
                                       child: OutlinedButton(
                                         style: OutlinedButton.styleFrom(
                                           side: BorderSide(
-                                            color: Colors.white.withOpacity(
-                                              0.2,
+                                            color: Colors.white.withValues(
+                                              alpha: 0.2,
                                             ),
                                           ),
                                           foregroundColor: Colors.white,
                                           backgroundColor:
-                                              Colors.white.withOpacity(0.06),
+                                              Colors.white.withValues(alpha: 0.06),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -244,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Text(
                                   "New to CodeMap?",
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withValues(alpha: 0.7),
                                   ),
                                 ),
                                 TextButton(
