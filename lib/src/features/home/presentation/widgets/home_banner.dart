@@ -13,16 +13,19 @@ class HomeBanner extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [theme.primaryColor, theme.primaryColor.withOpacity(0.7)],
+          colors: [
+            theme.colorScheme.primary,
+            theme.colorScheme.secondary,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: theme.primaryColor.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            color: theme.colorScheme.primary.withValues(alpha: 0.3),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
@@ -32,9 +35,9 @@ class HomeBanner extends StatelessWidget {
             right: -20,
             bottom: -20,
             child: Opacity(
-              opacity: 0.2,
-              child: const Icon(
-                Icons.flutter_dash,
+              opacity: 0.15,
+              child: Icon(
+                Icons.auto_awesome_rounded,
                 size: 150,
                 color: Colors.white,
               ),
@@ -52,7 +55,7 @@ class HomeBanner extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Text(
