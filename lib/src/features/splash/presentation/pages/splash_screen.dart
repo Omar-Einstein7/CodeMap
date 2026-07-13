@@ -21,7 +21,8 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
+    final theme = Theme.of(context);
+    final isLight = theme.brightness == Brightness.light;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -42,7 +43,7 @@ class SplashView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: isLight ? Colors.black87 : Colors.white,
+                  color: theme.textPrimaryColor,
                 ),
               ),
               const SizedBox(height: 10),
@@ -50,7 +51,7 @@ class SplashView extends StatelessWidget {
                 builder: (context, state) {
                   if (state is SplashInitial) {
                     return CircularProgressIndicator(
-                      color: isLight ? AppColors.primary : Colors.orange,
+                      color: AppColors.primary,
                     );
                   }
                   return const SizedBox.shrink();
