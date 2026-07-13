@@ -43,6 +43,22 @@ class ApiCourseRepository implements CourseRepository {
   }
 
   @override
+  Future<List<String>> getCategories() async {
+    final response = await _dioClient.get(APIUrls.categories);
+    final data = _unwrap(response.data);
+    if (data is List) {
+      return data.map((e) => e.toString()).toList();
+    }
+    throw const FormatException('Expected categories list');
+  }
+
+  @override
+  Future<List<Course>> getFeaturedCourses() async {
+    final response = await _dioClient.get(APIUrls.featuredCourses);
+    return _parseCourseList(response.data);
+  }
+
+  @override
   Future<Course> getCourseDetails(String courseId) async {
     final response = await _dioClient.get(APIUrls.courseDetails(courseId));
     final data = _unwrap(response.data);
