@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:codemap2/src/features/course/domain/entities/course.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
 
 class RecentCoursesList extends StatelessWidget {
   final List<Course> courses;
@@ -15,7 +15,7 @@ class RecentCoursesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLight = theme.brightness == Brightness.light;
+    final isDark = theme.brightness == Brightness.dark;
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -29,15 +29,18 @@ class RecentCoursesList extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 15),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isLight
-                  ? AppColors.glassLight
-                  : AppColors.glassDark,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isLight
-                    ? AppColors.glassBorderLight
-                    : AppColors.glassBorderDark,
-              ),
+              color: theme.glassColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: theme.glassBorder),
+              boxShadow: [
+                BoxShadow(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.25)
+                      : Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
             child: Row(
               children: [
@@ -46,9 +49,9 @@ class RecentCoursesList extends StatelessWidget {
                   width: 70,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: isLight
-                        ? Colors.white.withOpacity(0.5)
-                        : Colors.white.withOpacity(0.04),
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.04)
+                        : Colors.white.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Image.asset(course.imageUrl, fit: BoxFit.contain),
@@ -62,8 +65,8 @@ class RecentCoursesList extends StatelessWidget {
                         course.name,
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isLight ? Colors.black87 : Colors.white,
+                          fontWeight: FontWeight.w600,
+                          color: theme.textPrimaryColor,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -71,7 +74,7 @@ class RecentCoursesList extends StatelessWidget {
                         "ELZERO WEB SCHOOL",
                         style: TextStyle(
                           fontSize: 12,
-                          color: isLight ? Colors.grey[600] : Colors.grey[400],
+                          color: theme.textTertiaryColor,
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -81,10 +84,13 @@ class RecentCoursesList extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: theme.primaryColor.withOpacity(0.1),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.chevron_right),
+                  child: Icon(
+                    Icons.chevron_right_rounded,
+                    color: theme.colorScheme.primary,
+                  ),
                 ),
               ],
             ),
