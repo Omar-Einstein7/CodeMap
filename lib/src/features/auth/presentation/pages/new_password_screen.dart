@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 import '../widgets/custom_textfield.dart';
 
 class NewPasswordScreen extends StatefulWidget {
@@ -25,13 +26,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // Background Image with Overlay
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -46,15 +44,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.3),
-                      Colors.black.withOpacity(0.7),
+                      Colors.black.withValues(alpha: 0.3),
+                      Colors.black.withValues(alpha: 0.7),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          // Content
           SafeArea(
             child: Column(
               children: [
@@ -63,7 +60,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   child: IconButton(
                     onPressed: () => context.pop(),
                     icon: const Icon(
-                      Icons.arrow_back_ios_new,
+                      Icons.arrow_back_ios_new_rounded,
                       color: Colors.white,
                     ),
                   ),
@@ -77,14 +74,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Icon Container
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.15),
+                                  color: Colors.white.withValues(alpha: 0.15),
                                 ),
                               ),
                               child: const Icon(
@@ -110,7 +106,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 height: 1.5,
                               ),
                             ),
@@ -119,12 +115,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               labelText: "New Password",
                               controller: _newPasswordController,
                               obscureText: !_isPasswordVisible,
-                              prefixIcon: const Icon(Icons.lock_outline),
+                              prefixIcon: const Icon(Icons.lock_outline_rounded),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_rounded
+                                      : Icons.visibility_off_rounded,
                                 ),
                                 onPressed: () => setState(
                                   () =>
@@ -141,12 +137,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               labelText: "Confirm New Password",
                               controller: _confirmPasswordController,
                               obscureText: !_isConfirmPasswordVisible,
-                              prefixIcon: const Icon(Icons.lock_outline),
+                              prefixIcon: const Icon(Icons.lock_outline_rounded),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isConfirmPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_rounded
+                                      : Icons.visibility_off_rounded,
                                 ),
                                 onPressed: () => setState(
                                   () => _isConfirmPasswordVisible =
@@ -164,25 +160,18 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               width: double.infinity,
                               height: 56,
                               child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).primaryColor,
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
+                                      SnackBar(
+                                        content: const Text(
                                           "Password reset successful!",
                                         ),
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: AppColors.success,
                                         behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
                                       ),
                                     );
                                     context.go('/login');
@@ -192,7 +181,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                   "RESET PASSWORD",
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                     letterSpacing: 1.1,
                                   ),
                                 ),
