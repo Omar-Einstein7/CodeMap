@@ -7,34 +7,29 @@ class HomeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
-          color: isLight
-              ? AppColors.glassLight
-              : AppColors.glassDark,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: isLight
-                ? AppColors.glassBorderLight
-                : AppColors.glassBorderDark,
-          ),
+          color: theme.glassColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: theme.glassBorder),
         ),
         child: Row(
           children: [
             Icon(
-              Icons.search,
-              color: isLight ? Colors.black54 : Colors.white54,
+              Icons.search_rounded,
+              color: theme.textTertiaryColor,
             ),
             const SizedBox(width: 15),
             Text(
               "Search for courses...",
               style: TextStyle(
-                color: isLight ? Colors.black54 : Colors.white54,
+                color: theme.textTertiaryColor,
+                fontSize: 15,
               ),
             ),
           ],
