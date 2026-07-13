@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/course.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import '../../domain/entities/course.dart';
 
 class CategoryCard extends StatelessWidget {
   final CourseCategory category;
@@ -24,15 +24,14 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: color ??
-              (isDark ? AppColors.glassDark : AppColors.glassLight),
+          color: color ?? theme.glassColor,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
-          ),
+          border: Border.all(color: theme.glassBorder),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.black.withValues(alpha: 0.06),
               blurRadius: 15,
               offset: const Offset(0, 6),
             ),
@@ -45,7 +44,7 @@ class CategoryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : theme.primaryColor,
+              color: isDark ? Colors.white : theme.colorScheme.primary,
               letterSpacing: 1.1,
             ),
           ),
