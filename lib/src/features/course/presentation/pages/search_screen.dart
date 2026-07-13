@@ -8,7 +8,6 @@ import '../cubit/course_cubit.dart';
 import '../cubit/course_state.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 
-
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
@@ -25,39 +24,41 @@ class SearchScreen extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
-                // Search Input
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: [
                       IconButton(
                         onPressed: () => context.pop(),
-                        icon: const Icon(Icons.arrow_back_ios),
+                        icon: Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: theme.textPrimaryColor,
+                        ),
                       ),
                       Expanded(
                         child: Builder(
                           builder: (context) => Container(
                             decoration: BoxDecoration(
-                              color: isDark
-                                  ? AppColors.glassDark
-                                  : AppColors.glassLight,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: isDark
-                                    ? AppColors.glassBorderDark
-                                    : AppColors.glassBorderLight,
-                              ),
+                              color: theme.glassColor,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: theme.glassBorder),
                             ),
                             child: TextField(
                               onChanged: (value) {
                                 context.read<CourseCubit>().globalSearch(value);
                               },
                               autofocus: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: "Search courses...",
+                                hintStyle: TextStyle(
+                                  color: theme.textTertiaryColor,
+                                ),
                                 border: InputBorder.none,
-                                prefixIcon: Icon(Icons.search),
-                                contentPadding: EdgeInsets.symmetric(
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  color: theme.textTertiaryColor,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 20,
                                   vertical: 15,
                                 ),
@@ -70,7 +71,6 @@ class SearchScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Search Results
                 Expanded(
                   child: BlocBuilder<CourseCubit, CourseState>(
                     builder: (context, state) {
@@ -83,14 +83,17 @@ class SearchScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.search_off,
-                                  size: 80,
-                                  color: Colors.grey.withOpacity(0.5),
+                                  Icons.search_off_rounded,
+                                  size: 72,
+                                  color: theme.textTertiaryColor,
                                 ),
                                 const SizedBox(height: 20),
                                 Text(
                                   "No courses found for '${state.query}'",
-                                  style: const TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                    color: theme.textSecondaryColor,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ],
                             ),
@@ -101,14 +104,17 @@ class SearchScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.search,
-                                  size: 80,
-                                  color: Colors.grey.withOpacity(0.5),
+                                  Icons.search_rounded,
+                                  size: 72,
+                                  color: theme.textTertiaryColor,
                                 ),
                                 const SizedBox(height: 20),
-                                const Text(
+                                Text(
                                   "Try searching for keywords like 'Flutter', 'Python'...",
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                    color: theme.textSecondaryColor,
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ],
                             ),
