@@ -21,13 +21,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // Background Image with Overlay
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -42,15 +39,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.3),
-                      Colors.black.withOpacity(0.7),
+                      Colors.black.withValues(alpha: 0.3),
+                      Colors.black.withValues(alpha: 0.7),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          // Content
           SafeArea(
             child: Column(
               children: [
@@ -59,7 +55,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   child: IconButton(
                     onPressed: () => context.pop(),
                     icon: const Icon(
-                      Icons.arrow_back_ios_new,
+                      Icons.arrow_back_ios_new_rounded,
                       color: Colors.white,
                     ),
                   ),
@@ -73,14 +69,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Icon Container
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.15),
+                                  color: Colors.white.withValues(alpha: 0.15),
                                 ),
                               ),
                               child: const Icon(
@@ -106,7 +101,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 height: 1.5,
                               ),
                             ),
@@ -129,16 +124,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               width: double.infinity,
                               height: 56,
                               child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).primaryColor,
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     context.push('/verify-code');
@@ -148,7 +133,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   "SEND CODE",
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                     letterSpacing: 1.1,
                                   ),
                                 ),
@@ -160,7 +145,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               child: Text(
                                 "Back to Login",
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
                                 ),
