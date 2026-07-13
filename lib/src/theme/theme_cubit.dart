@@ -27,15 +27,14 @@ class ThemeCubit extends Cubit<bool> {
   }
 
   void _updateSystemUI(bool isLight) {
-    // Mirror the original behavior from ThemeNotifier.
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarBrightness: isLight ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isLight ? Brightness.dark : Brightness.light,
         statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
         systemNavigationBarColor: isLight
             ? AppColors.surfaceLight
-            : AppColors.surfaceDark,
+            : AppColors.gradientDarkBottom,
         systemNavigationBarIconBrightness: isLight
             ? Brightness.dark
             : Brightness.light,
