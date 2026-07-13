@@ -16,7 +16,6 @@ class CategorySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLight = theme.brightness == Brightness.light;
     return SizedBox(
       height: 60,
       child: ListView.builder(
@@ -32,22 +31,16 @@ class CategorySelector extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? theme.primaryColor
-                    : (isLight
-                        ? AppColors.glassLight
-                        : AppColors.glassDark),
-                borderRadius: BorderRadius.circular(15),
+                    ? theme.colorScheme.primary
+                    : theme.glassColor,
+                borderRadius: BorderRadius.circular(16),
                 border: isSelected
                     ? null
-                    : Border.all(
-                        color: isLight
-                            ? AppColors.glassBorderLight
-                            : AppColors.glassBorderDark,
-                      ),
+                    : Border.all(color: theme.glassBorder),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: theme.primaryColor.withOpacity(0.3),
+                          color: theme.colorScheme.primary.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -60,7 +53,7 @@ class CategorySelector extends StatelessWidget {
                 style: TextStyle(
                   color: isSelected
                       ? Colors.white
-                      : (isLight ? Colors.black87 : Colors.white70),
+                      : theme.textPrimaryColor,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   fontSize: 12,
                   letterSpacing: 1,
