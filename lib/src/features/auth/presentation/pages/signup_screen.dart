@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/service_locator.dart';
 import '../widgets/auth_title.dart';
 import '../widgets/auth_subtitle.dart';
@@ -39,8 +40,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return BlocProvider(
       create: (context) => sl<AuthCubit>(),
       child: BlocListener<AuthCubit, AuthState>(
@@ -49,8 +48,11 @@ class _SignupScreenState extends State<SignupScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.green,
+                backgroundColor: AppColors.success,
                 behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             );
             context.pop();
@@ -58,8 +60,11 @@ class _SignupScreenState extends State<SignupScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
                 behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             );
           }
@@ -68,7 +73,6 @@ class _SignupScreenState extends State<SignupScreen> {
           resizeToAvoidBottomInset: true,
           body: Stack(
             children: [
-              // Background Image with Overlay
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -85,15 +89,14 @@ class _SignupScreenState extends State<SignupScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.3),
-                          Colors.black.withOpacity(0.7),
+                          Colors.black.withValues(alpha: 0.2),
+                          Colors.black.withValues(alpha: 0.8),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              // Content
               SafeArea(
                 child: Column(
                   children: [
@@ -102,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       child: IconButton(
                         onPressed: () => context.pop(),
                         icon: const Icon(
-                          Icons.arrow_back_ios_new,
+                          Icons.arrow_back_ios_new_rounded,
                           color: Colors.white,
                         ),
                       ),
@@ -116,14 +119,13 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // Logo Placeholder
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha: 0.1),
                                     border: Border.all(
-                                      color: Colors.white.withOpacity(0.15),
+                                      color: Colors.white.withValues(alpha: 0.15),
                                     ),
                                   ),
                                   child: const Icon(
@@ -183,12 +185,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                   labelText: "Password",
                                   controller: _passwordController,
                                   obscureText: !_isPasswordVisible,
-                                  prefixIcon: const Icon(Icons.lock_outline),
+                                  prefixIcon: const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _isPasswordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
+                                          ? Icons.visibility_rounded
+                                          : Icons.visibility_off_rounded,
                                     ),
                                     onPressed: () => setState(
                                       () => _isPasswordVisible =
@@ -205,12 +207,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                   labelText: "Confirm Password",
                                   controller: _confirmPasswordController,
                                   obscureText: !_isConfirmPasswordVisible,
-                                  prefixIcon: const Icon(Icons.lock_outline),
+                                  prefixIcon: const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _isConfirmPasswordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
+                                          ? Icons.visibility_rounded
+                                          : Icons.visibility_off_rounded,
                                     ),
                                     onPressed: () => setState(
                                       () => _isConfirmPasswordVisible =
@@ -230,7 +232,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                       width: double.infinity,
                                       text: "SIGN UP",
                                       isLoading: state is AuthLoading,
-                                      backgroundColor: Theme.of(context).primaryColor,
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           context.read<AuthCubit>().signup(
@@ -251,7 +252,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     Text(
                                       "Already have an account?",
                                       style: TextStyle(
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withValues(alpha: 0.7),
                                       ),
                                     ),
                                     TextButton(
