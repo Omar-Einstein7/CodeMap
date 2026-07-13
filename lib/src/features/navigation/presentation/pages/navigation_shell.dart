@@ -37,14 +37,6 @@ class NavigationShell extends StatelessWidget {
       backgroundColor: isLight ? AppColors.bgLight : AppColors.bgDark,
       extendBody: true,
       body: navigationShell,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<ThemeCubit>().toggleTheme(),
-        backgroundColor: theme.colorScheme.primary,
-        child: Icon(
-          isLight ? Icons.dark_mode_rounded : Icons.sunny,
-          color: Colors.white,
-        ),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _LiquidNavBar(
         items:         _items,
