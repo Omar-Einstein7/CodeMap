@@ -18,8 +18,8 @@ class _NavItem {
 // ─── Shell ────────────────────────────────────────────────────────────────────
 
 class NavigationShell extends StatelessWidget {
-  final Widget child;
-  const NavigationShell({super.key, required this.child});
+  final StatefulNavigationShell navigationShell;
+  const NavigationShell({super.key, required this.navigationShell});
 
   static const _items = <_NavItem>[
     _NavItem(icon: Icons.home_rounded,         label: 'Home'),
@@ -28,28 +28,15 @@ class NavigationShell extends StatelessWidget {
     _NavItem(icon: Icons.person_rounded,        label: 'Profile'),
   ];
 
-  static const _tabPaths = ['/home', '/favourites', '/courses', '/profile'];
-
   @override
   Widget build(BuildContext context) {
     final theme   = Theme.of(context);
     final isLight = theme.brightness == Brightness.light;
 
-    final loc = GoRouter.of(context)
-        .routerDelegate.currentConfiguration.uri.toString();
-    int activeIndex = 0;
-    if (loc.startsWith('/favourites')) {
-      activeIndex = 1;
-    } else if (loc.startsWith('/courses')) {
-      activeIndex = 2;
-    } else if (loc.startsWith('/profile')) {
-      activeIndex = 3;
-    }
-
     return Scaffold(
       backgroundColor: isLight ? AppColors.bgLight : AppColors.bgDark,
       extendBody: true,
-      body: child,
+      body: navigationShell,
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.read<ThemeCubit>().toggleTheme(),
         backgroundColor: theme.colorScheme.primary,
@@ -61,11 +48,11 @@ class NavigationShell extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _LiquidNavBar(
         items:         _items,
-        activeIndex:   activeIndex,
+        activeIndex:   navigationShell.currentIndex,
         primaryColor:  theme.colorScheme.primary,
         secondaryColor: theme.colorScheme.secondary,
         isLight:       isLight,
-        onTap:         (i) => context.go(_tabPaths[i]),
+        onTap:         (i) => navigationShell.goBranch(i),
       ),
     );
   }

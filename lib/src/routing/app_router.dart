@@ -24,7 +24,6 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static GoRouter get router => _router;
 
@@ -55,76 +54,64 @@ class AppRouter {
         path: AppRoutes.newPassword,
         builder: (context, state) => const NewPasswordScreen(),
       ),
-      // ShellRoute for authenticated users with bottom navigation
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => NavigationShell(child: child),
-        routes: [
-          GoRoute(
-            path: AppRoutes.home,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: HomeScreen()),
+      // StatefulShellRoute for authenticated users with bottom navigation
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            NavigationShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'search',
-                builder: (context, state) => const SearchScreen(),
+                path: AppRoutes.home,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: HomeScreen()),
+                routes: [
+                  GoRoute(
+                    path: 'search',
+                    builder: (context, state) => const SearchScreen(),
+                  ),
+                ],
               ),
             ],
           ),
-          GoRoute(
-            path: AppRoutes.favourites,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: FavouriteScreen()),
-          ),
-          GoRoute(
-            path: AppRoutes.courses,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: CategoryListScreen()),
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'courses/:category',
-                builder: (context, state) {
-                  final categoryName = state.pathParameters['category']!;
-                  final category = CourseCategory.values.firstWhere(
-                    (e) => e.name == categoryName,
-                    orElse: () => CourseCategory.ai,
-                  );
-                  return CourseListScreen(category: category);
-                },
+                path: AppRoutes.favourites,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: FavouriteScreen()),
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
-                path: 'course-detail/:courseId',
-                builder: (context, state) {
-                  final courseId = state.pathParameters['courseId']!;
-                  // Retrieve the course object from extra if available, otherwise fetch it
-                  final course = state.extra as Course?;
-
-                  if (course != null) {
-                    return CourseDetailScreen(course: course);
-                  }
-
-                  // Fallback: This will trigger the loading state in CourseDetailScreen
-                  return CourseDetailScreen(
-                    course: Course(
-                      id: courseId,
-                      name: 'Loading...',
-                      imageUrl: 'images2/img.png',
-                      category: CourseCategory.ai,
-                    ),
-                  );
-                },
+                path: AppRoutes.courses,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: CategoryListScreen()),
                 routes: [
                   GoRoute(
-                    path: 'content',
+                    path: 'courses/:category',
+                    builder: (context, state) {
+                      final categoryName = state.pathParameters['category']!;
+                      final category = CourseCategory.values.firstWhere(
+                        (e) => e.name == categoryName,
+                        orElse: () => CourseCategory.ai,
+                      );
+                      return CourseListScreen(category: category);
+                    },
+                  ),
+                  GoRoute(
+                    path: 'course-detail/:courseId',
                     builder: (context, state) {
                       final courseId = state.pathParameters['courseId']!;
                       final course = state.extra as Course?;
 
                       if (course != null) {
-                        return CourseContentScreen(course: course);
+                        return CourseDetailScreen(course: course);
                       }
 
-                      return CourseContentScreen(
+                      return CourseDetailScreen(
                         course: Course(
                           id: courseId,
                           name: 'Loading...',
@@ -133,19 +120,45 @@ class AppRouter {
                         ),
                       );
                     },
+                    routes: [
+                      GoRoute(
+                        path: 'content',
+                        builder: (context, state) {
+                          final courseId = state.pathParameters['courseId']!;
+                          final course = state.extra as Course?;
+
+                          if (course != null) {
+                            return CourseContentScreen(course: course);
+                          }
+
+                          return CourseContentScreen(
+                            course: Course(
+                              id: courseId,
+                              name: 'Loading...',
+                              imageUrl: 'images2/img.png',
+                              category: CourseCategory.ai,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
-          GoRoute(
-            path: AppRoutes.profile,
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: ProfileScreen()),
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'settings',
-                builder: (context, state) => const SettingsScreen(),
+                path: AppRoutes.profile,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: ProfileScreen()),
+                routes: [
+                  GoRoute(
+                    path: 'settings',
+                    builder: (context, state) => const SettingsScreen(),
+                  ),
+                ],
               ),
             ],
           ),
