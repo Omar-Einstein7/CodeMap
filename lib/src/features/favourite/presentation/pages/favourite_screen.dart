@@ -25,23 +25,19 @@ class FavouriteScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: theme.primaryColor,
-                    ),
-                    height: 50,
-                    child: const Center(
-                      child: Text(
-                        "F A V O U R I T E",
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Text(
+                    "F A V O U R I T E",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
                     ),
                   ),
                 ),
@@ -54,15 +50,24 @@ class FavouriteScreen extends StatelessWidget {
                       } else if (state is FavouriteLoaded) {
                         if (state.favourites.isEmpty) {
                           return Center(
-                            child: Text(
-                              "NO FAVOURITE YET",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: isDark
-                                    ? Colors.white54
-                                    : Colors.black54,
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.favorite_outline_rounded,
+                                  size: 64,
+                                  color: theme.textTertiaryColor,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  "No favourites yet",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: theme.textSecondaryColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         }
