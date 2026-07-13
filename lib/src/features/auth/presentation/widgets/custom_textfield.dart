@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/theme/app_theme.dart';
 
 class CustomTextfield extends StatelessWidget {
   final String labelText;
@@ -20,42 +21,61 @@ class CustomTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         validator: validator,
-        cursorColor: Colors.white,
-        style: const TextStyle(color: Colors.white, fontSize: 16),
+        cursorColor: isDark ? Colors.white : theme.colorScheme.primary,
+        style: TextStyle(
+          color: isDark ? Colors.white : theme.textPrimaryColor,
+          fontSize: 16,
+        ),
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white.withOpacity(0.08),
+          fillColor: isDark
+              ? Colors.white.withValues(alpha: 0.08)
+              : theme.glassColor,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 18,
             horizontal: 20,
           ),
           labelText: labelText,
           labelStyle: TextStyle(
-            color: Colors.white.withOpacity(0.6),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.6)
+                : theme.textSecondaryColor,
             fontSize: 14,
           ),
-          floatingLabelStyle: const TextStyle(
-            color: Colors.white,
+          floatingLabelStyle: TextStyle(
+            color: isDark ? Colors.white : theme.colorScheme.primary,
             fontSize: 12,
+            fontWeight: FontWeight.w500,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
+            borderSide: BorderSide(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.12)
+                  : theme.glassBorder,
+            ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.white.withOpacity(0.12)),
+            borderSide: BorderSide(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.12)
+                  : theme.glassBorder,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide(
-              color: Theme.of(context).primaryColor,
+              color: isDark ? Colors.white : theme.colorScheme.primary,
               width: 1.5,
             ),
           ),
@@ -75,7 +95,11 @@ class CustomTextfield extends StatelessWidget {
               ? Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: IconTheme(
-                    data: IconThemeData(color: Colors.white.withOpacity(0.7)),
+                    data: IconThemeData(
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.7)
+                          : theme.textSecondaryColor,
+                    ),
                     child: prefixIcon!,
                   ),
                 )
@@ -84,7 +108,11 @@ class CustomTextfield extends StatelessWidget {
               ? Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: IconTheme(
-                    data: IconThemeData(color: Colors.white.withOpacity(0.7)),
+                    data: IconThemeData(
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.7)
+                          : theme.textSecondaryColor,
+                    ),
                     child: suffixIcon!,
                   ),
                 )
