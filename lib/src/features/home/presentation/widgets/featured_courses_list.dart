@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:codemap2/src/features/course/domain/entities/course.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
 
 class FeaturedCoursesList extends StatelessWidget {
   final List<Course> courses;
@@ -32,15 +32,18 @@ class FeaturedCoursesList extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.45,
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               decoration: BoxDecoration(
-                color: isDark
-                    ? AppColors.glassDark
-                    : AppColors.glassLight,
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: isDark
-                      ? AppColors.glassBorderDark
-                      : AppColors.glassBorderLight,
-                ),
+                color: theme.glassColor,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: theme.glassBorder),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDark
+                        ? Colors.black.withValues(alpha: 0.25)
+                        : Colors.black.withValues(alpha: 0.06),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,10 +55,10 @@ class FeaturedCoursesList extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: isDark
-                            ? Colors.white.withOpacity(0.04)
-                            : Colors.white.withOpacity(0.5),
+                            ? Colors.white.withValues(alpha: 0.04)
+                            : Colors.white.withValues(alpha: 0.5),
                         borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(25),
+                          top: Radius.circular(24),
                         ),
                       ),
                       child: Image.asset(course.imageUrl, fit: BoxFit.contain),
@@ -71,10 +74,9 @@ class FeaturedCoursesList extends StatelessWidget {
                       child: Text(
                         course.name,
                         style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.5,
-                          color: isDark ? Colors.white : Colors.black87,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: theme.textPrimaryColor,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
