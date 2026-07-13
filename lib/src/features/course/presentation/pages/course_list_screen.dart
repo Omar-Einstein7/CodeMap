@@ -16,21 +16,17 @@ class CourseListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return BlocProvider(
       create: (context) => sl<CourseCubit>()..loadCourses(category),
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
           title: Text(category.displayName),
-          centerTitle: true,
           leading: IconButton(
             icon: Icon(
-              Icons.arrow_back_ios,
-              color: isDark ? Colors.white : Colors.black,
+              Icons.arrow_back_ios_rounded,
+              color: theme.textPrimaryColor,
             ),
             onPressed: () => context.pop(),
           ),
@@ -39,20 +35,13 @@ class CourseListScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              // Unified Search Bar
               Builder(
                 builder: (context) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: isDark
-                        ? AppColors.glassDark
-                        : AppColors.glassLight,
-                    border: Border.all(
-                      color: isDark
-                          ? AppColors.glassBorderDark
-                          : AppColors.glassBorderLight,
-                    ),
+                    color: theme.glassColor,
+                    border: Border.all(color: theme.glassBorder),
                   ),
                   child: TextField(
                     onChanged: (value) {
@@ -67,12 +56,12 @@ class CourseListScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       prefixIcon: Icon(
-                        Icons.search,
-                        color: isDark ? Colors.white54 : Colors.black54,
+                        Icons.search_rounded,
+                        color: theme.textTertiaryColor,
                       ),
                       hintText: "Search courses",
                       hintStyle: TextStyle(
-                        color: isDark ? Colors.white54 : Colors.black54,
+                        color: theme.textTertiaryColor,
                       ),
                     ),
                   ),
@@ -86,12 +75,12 @@ class CourseListScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CourseLoaded) {
                       if (state.courses.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            "NOT FOUND",
+                            "No courses found",
                             style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black54,
+                              fontSize: 16,
+                              color: theme.textSecondaryColor,
                             ),
                           ),
                         );
