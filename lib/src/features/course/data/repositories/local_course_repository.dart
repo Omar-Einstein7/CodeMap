@@ -104,6 +104,18 @@ class LocalCourseRepository implements CourseRepository {
   ];
 
   @override
+  Future<List<String>> getCategories() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return ['Recent', 'mobile', 'frontend', 'backend', 'AI', 'games'];
+  }
+
+  @override
+  Future<List<Course>> getFeaturedCourses() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return _allCourses.take(7).toList();
+  }
+
+  @override
   Future<List<Course>> getCoursesByCategory(CourseCategory category) async {
     // Simulating network delay
     await Future.delayed(const Duration(milliseconds: 500));
