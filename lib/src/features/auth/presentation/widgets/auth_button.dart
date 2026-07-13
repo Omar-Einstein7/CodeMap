@@ -4,7 +4,7 @@ class AuthButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final double width;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final bool isLoading;
 
   const AuthButton({
@@ -12,21 +12,33 @@ class AuthButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.width = 200,
-    this.backgroundColor = const Color(0xff0E86D4),
+    this.backgroundColor,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final bgColor = backgroundColor ?? theme.colorScheme.primary;
+
     return SizedBox(
       width: width,
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: bgColor,
+          foregroundColor: Colors.white,
           elevation: 0,
+          disabledBackgroundColor: bgColor.withValues(alpha: 0.4),
+          disabledForegroundColor: Colors.white.withValues(alpha: 0.6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
+          ),
+          textStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.3,
+            color: Colors.white,
           ),
         ),
         onPressed: isLoading ? null : onPressed,
@@ -39,14 +51,7 @@ class AuthButton extends StatelessWidget {
                   strokeWidth: 2,
                 ),
               )
-            : Text(
-                text.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+            : Text(text.toUpperCase()),
       ),
     );
   }
