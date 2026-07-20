@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/shared/widgets/course_image.dart';
 import '../../domain/entities/course.dart';
 
 class CourseCard extends StatelessWidget {
@@ -40,20 +41,12 @@ class CourseCard extends StatelessWidget {
               children: [
                 Hero(
                   tag: 'course_image_${course.id}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      course.imageUrl,
-                      width: 70,
-                      height: 70,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        width: 70,
-                        height: 70,
-                        color: isDark ? Colors.grey[800] : Colors.grey[300],
-                        child: const Icon(Icons.broken_image),
-                      ),
-                    ),
+                  child: CourseImage(
+                    imageUrl: course.imageUrl,
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                    borderRadius: 12,
                   ),
                 ),
                 const SizedBox(width: 20),

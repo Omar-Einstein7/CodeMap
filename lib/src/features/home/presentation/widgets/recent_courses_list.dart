@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/shared/widgets/course_image.dart';
 
 class RecentCoursesList extends StatelessWidget {
   final List<Course> courses;
@@ -54,7 +55,7 @@ class RecentCoursesList extends StatelessWidget {
                         : Colors.white.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Image.asset(course.imageUrl, fit: BoxFit.contain),
+                  child: CourseImage(imageUrl: course.imageUrl),
                 ),
                 const SizedBox(width: 15),
                 Expanded(
@@ -71,7 +72,7 @@ class RecentCoursesList extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "ELZERO WEB SCHOOL",
+                        course.category.displayName,
                         style: TextStyle(
                           fontSize: 12,
                           color: theme.textTertiaryColor,

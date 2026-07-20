@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
-import 'package:codemap2/src/theme/theme_cubit.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────

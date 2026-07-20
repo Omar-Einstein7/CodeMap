@@ -38,7 +38,11 @@ class HomeScreen extends StatelessWidget {
                       onTap: () => context.push('/home/search'),
                     ),
 
-                    const HomeBanner(),
+                    HomeBanner(
+                      course: state.featuredCourseData.isNotEmpty
+                          ? state.featuredCourseData.first
+                          : null,
+                    ),
 
                     CategorySelector(
                       categories: state.categories,

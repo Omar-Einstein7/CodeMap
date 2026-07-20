@@ -110,7 +110,7 @@ class SearchScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 20),
                                 Text(
-                                  "Try searching for keywords like 'Flutter', 'Python'...",
+                                  "Try searching for 'Flutter', 'TypeScript', 'Rust'...",
                                   style: TextStyle(
                                     color: theme.textSecondaryColor,
                                     fontSize: 15,

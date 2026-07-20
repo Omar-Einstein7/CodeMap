@@ -61,6 +61,7 @@ dependencies:
   easy_localization: ^3.0.8
   flutter_dotenv: ^6.0.0
   liquid_glass_renderer: 0.2.0-dev.4
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:

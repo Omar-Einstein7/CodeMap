@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/shared/widgets/course_image.dart';
 
 class FeaturedCoursesList extends StatelessWidget {
   final List<Course> courses;
@@ -61,7 +62,7 @@ class FeaturedCoursesList extends StatelessWidget {
                           top: Radius.circular(24),
                         ),
                       ),
-                      child: Image.asset(course.imageUrl, fit: BoxFit.contain),
+                      child: CourseImage(imageUrl: course.imageUrl),
                     ),
                   ),
                   Expanded(

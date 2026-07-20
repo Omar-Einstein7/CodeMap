@@ -12,6 +12,7 @@ import '../cubit/course_detail_state.dart';
 import '../cubit/lesson_progress_cubit.dart';
 import '../cubit/lesson_progress_state.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
+import 'package:codemap2/src/shared/widgets/course_image.dart';
 
 class CourseDetailScreen extends StatelessWidget {
   final Course course;
@@ -90,8 +91,8 @@ class CourseDetailView extends StatelessWidget {
                     children: [
                       Hero(
                         tag: 'course_image_${displayCourse.id}',
-                        child: Image.asset(
-                          displayCourse.imageUrl,
+                        child: CourseImage(
+                          imageUrl: displayCourse.imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),

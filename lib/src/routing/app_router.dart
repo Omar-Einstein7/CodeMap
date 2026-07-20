@@ -115,7 +115,7 @@ class AppRouter {
                         course: Course(
                           id: courseId,
                           name: 'Loading...',
-                          imageUrl: 'images2/img.png',
+                          imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
                           category: CourseCategory.ai,
                         ),
                       );
@@ -135,7 +135,7 @@ class AppRouter {
                             course: Course(
                               id: courseId,
                               name: 'Loading...',
-                              imageUrl: 'images2/img.png',
+                              imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
                               category: CourseCategory.ai,
                             ),
                           );

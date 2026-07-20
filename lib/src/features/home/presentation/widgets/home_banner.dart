@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:codemap2/src/features/course/domain/entities/course.dart';
+import 'package:codemap2/src/shared/widgets/course_image.dart';
 
 class HomeBanner extends StatelessWidget {
-  const HomeBanner({Key? key}) : super(key: key);
+  final Course? course;
+
+  const HomeBanner({super.key, this.course});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
+    final name = course?.name ?? 'Flutter';
+    final category = course?.category.displayName ?? 'Mobile';
+    final imageUrl = course?.imageUrl ?? '';
+    final hasImage = imageUrl.isNotEmpty;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       height: height * 0.22,
@@ -31,7 +40,7 @@ class HomeBanner extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Positioned(
+          const Positioned(
             right: -20,
             bottom: -20,
             child: Opacity(
@@ -58,9 +67,9 @@ class HomeBanner extends StatelessWidget {
                     color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text(
-                    "New Trend",
-                    style: TextStyle(
+                  child: Text(
+                     "New Trend",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
@@ -68,7 +77,7 @@ class HomeBanner extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                const Text(
+                               const Text(
                   "Mastering Flutter\nDevelopment",
                   style: TextStyle(
                     color: Colors.white,
@@ -80,12 +89,13 @@ class HomeBanner extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            right: 15,
-            top: 15,
-            bottom: 15,
-            child: Image.asset("mobile/Flutter.png", fit: BoxFit.contain),
-          ),
+          if (hasImage)
+            Positioned(
+              right: 15,
+              top: 15,
+              bottom: 15,
+              child: CourseImage(imageUrl: imageUrl, fit: BoxFit.contain),
+            ),
         ],
       ),
     );
