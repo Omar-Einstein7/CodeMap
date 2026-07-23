@@ -42,7 +42,7 @@ class NavigationShell extends StatelessWidget {
         primaryColor:  theme.colorScheme.primary,
         secondaryColor: theme.colorScheme.secondary,
         isLight:       isLight,
-        onTap:         (i) => navigationShell.goBranch(i),
+        onTap:         (i) => navigationShell.goBranch(i, initialLocation: i == 2),
       ),
     );
   }

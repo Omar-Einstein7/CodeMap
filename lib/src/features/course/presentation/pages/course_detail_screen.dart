@@ -33,7 +33,7 @@ class CourseDetailScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              sl<CourseDetailCubit>()..loadCourseDetails(course.id),
+              sl<CourseDetailCubit>()..loadCourseDetails(course.id, fallback: course),
         ),
         BlocProvider(
           create: (context) =>
@@ -59,12 +59,19 @@ class CourseDetailView extends StatelessWidget {
             : (context
                       .findAncestorWidgetOfExactType<CourseDetailScreen>()
                       ?.course ??
-                  Course(
-                    id: '',
-                    name: '',
-                    imageUrl: '',
-                    category: CourseCategory.ai,
-                  ));
+                  (state is CourseDetailError
+                      ? const Course(
+                          id: '',
+                          name: 'Error',
+                          imageUrl: '',
+                          category: CourseCategory.mobile,
+                        )
+                      : const Course(
+                          id: '',
+                          name: '',
+                          imageUrl: '',
+                          category: CourseCategory.mobile,
+                        )));
 
         return Scaffold(
           body: CustomScrollView(

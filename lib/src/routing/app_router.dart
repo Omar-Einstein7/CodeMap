@@ -91,18 +91,19 @@ class AppRouter {
                     const NoTransitionPage(child: CategoryListScreen()),
                 routes: [
                   GoRoute(
-                    path: 'courses/:category',
+                    path: 'course-detail',
+                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) {
-                      final categoryName = state.pathParameters['category']!;
-                      final category = CourseCategory.values.firstWhere(
-                        (e) => e.name == categoryName,
-                        orElse: () => CourseCategory.ai,
-                      );
-                      return CourseListScreen(category: category);
+                      final course = state.extra as Course?;
+                      if (course != null) {
+                        return CourseDetailScreen(course: course);
+                      }
+                      throw ArgumentError('Course not provided');
                     },
                   ),
                   GoRoute(
                     path: 'course-detail/:courseId',
+                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (context, state) {
                       final courseId = state.pathParameters['courseId']!;
                       final course = state.extra as Course?;
@@ -111,18 +112,12 @@ class AppRouter {
                         return CourseDetailScreen(course: course);
                       }
 
-                      return CourseDetailScreen(
-                        course: Course(
-                          id: courseId,
-                          name: 'Loading...',
-                          imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
-                          category: CourseCategory.ai,
-                        ),
-                      );
+                      throw ArgumentError('Course not found in extra for courseId: $courseId');
                     },
                     routes: [
                       GoRoute(
                         path: 'content',
+                        parentNavigatorKey: _rootNavigatorKey,
                         builder: (context, state) {
                           final courseId = state.pathParameters['courseId']!;
                           final course = state.extra as Course?;
@@ -131,17 +126,17 @@ class AppRouter {
                             return CourseContentScreen(course: course);
                           }
 
-                          return CourseContentScreen(
-                            course: Course(
-                              id: courseId,
-                              name: 'Loading...',
-                              imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
-                              category: CourseCategory.ai,
-                            ),
-                          );
+                          throw ArgumentError('Course not found in extra for courseId: $courseId');
                         },
                       ),
                     ],
+                  ),
+                  ...CourseCategory.values.map(
+                    (category) => GoRoute(
+                      path: category.name,
+                      builder: (context, state) =>
+                          CourseListScreen(category: category),
+                    ),
                   ),
                 ],
               ),

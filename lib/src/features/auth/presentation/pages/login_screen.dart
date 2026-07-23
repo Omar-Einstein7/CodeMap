@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:codemap2/src/theme/app_theme.dart';
 import 'package:codemap2/src/services/service_locator.dart';
@@ -204,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     const SizedBox(height: 16),
                                     SizedBox(
-                                      width: double.infinity,
+                                      width: 280.w,
                                       height: 56,
                                       child: OutlinedButton(
                                         style: OutlinedButton.styleFrom(

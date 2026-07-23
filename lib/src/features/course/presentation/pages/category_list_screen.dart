@@ -50,7 +50,7 @@ class CategoryListScreen extends StatelessWidget {
                     return CategoryCard(
                       category: category,
                       onTap: () {
-                        context.push('/courses/courses/${category.name}');
+                        context.push('/courses/${category.name}');
                       },
                     );
                   },
